@@ -13,5 +13,5 @@ import java.util.Optional;
 
 public interface MessageRepository extends JpaRepository<Message, Integer>
 {
-    Optional<Message> findByEmail(String email);
+//    Optional<Message> findByEmail(String email);
 }

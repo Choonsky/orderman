@@ -13,5 +13,5 @@ import java.util.Optional;
 
 public interface AttachmentRepository extends JpaRepository<Attachment, Integer>
 {
-    Optional<Attachment> findByEmail(String email);
+//    Optional<Attachment> findByEmail(String email);
 }

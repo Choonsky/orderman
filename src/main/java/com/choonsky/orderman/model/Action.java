@@ -2,7 +2,7 @@ package com.choonsky.orderman.model;
 
 import javax.persistence.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "actions")
@@ -20,8 +20,8 @@ public class Action {
     @Column(name = "id_message")
     private Integer idMessage;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp time;     // use toLocalDateTime(time)
+    @Basic
+    private LocalDateTime time;
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -35,6 +35,6 @@ public class Action {
     public Integer getIdMessage() { return idMessage; }
     public void setIdMessage(Integer idMessage) { this.idMessage = idMessage; }
 
-    public Timestamp getTime() { return time; }
-    public void setTime(Timestamp time) { this.time = time; }
+    public LocalDateTime getTime() { return time; }
+    public void setTime(LocalDateTime time) { this.time = time; }
 }

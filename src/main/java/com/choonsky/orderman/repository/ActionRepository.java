@@ -13,5 +13,5 @@ import java.util.Optional;
 
 public interface ActionRepository extends JpaRepository<Action, Integer>
 {
-    Optional<Action> findByEmail(String email);
+//    Optional<Action> findByEmail(String email);
 }

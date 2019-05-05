@@ -12,6 +12,9 @@
     <p>
         Добро пожаловать, админ <span sec:authentication="principal.username">Name</span>
     </p>
+    <p>
+        Current time is <span th:text="${serverTime}" />
+    </p>
     <p sec:authorize="isAuthenticated()">
         <a th:href="@{/logout}" th:text="#{logout.text}">Выйти из системы</a>
     </p>

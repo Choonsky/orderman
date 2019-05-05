@@ -13,5 +13,5 @@ import java.util.Optional;
 
 public interface StateRepository extends JpaRepository<State, Integer>
 {
-    Optional<State> findByEmail(String email);
+//    Optional<State> findByEmail(String email);
 }
