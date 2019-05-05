@@ -15,6 +15,37 @@
     <p>
         Current time is <span th:text="${serverTime}" />
     </p>
+    <!--
+    <p>
+        Перечислим юзеров:
+    </p>
+    <p>
+        <span th:text="${users}" />
+    </p>
+    -->
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Description</th>
+            <th>Phone</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">Onions</td>
+            <td th:text="${user.name}">2.41</td>
+            <td th:text="${user.email}">Onions</td>
+            <td th:text="${user.password}">2.41</td>
+            <td th:text="${user.description}">Onions</td>
+            <td th:text="${user.phone}">2.41</td>
+        </tr>
+        </tbody>
+    </table>
     <p sec:authorize="isAuthenticated()">
         <a th:href="@{/logout}" th:text="#{logout.text}">Выйти из системы</a>
     </p>

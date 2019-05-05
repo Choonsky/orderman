@@ -12,6 +12,7 @@
     <p>
         Добро пожаловать, шеф <span sec:authentication="principal.username">Name</span>
     </p>
+
     <p sec:authorize="isAuthenticated()">
         <a th:href="@{/logout}" th:text="#{logout.text}">Выйти из системы</a>
     </p>

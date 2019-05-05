@@ -1,5 +1,7 @@
 package com.choonsky.orderman.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 import javax.persistence.*;
@@ -36,6 +38,7 @@ public class User
     private String phone;
 
     @ManyToMany(cascade=CascadeType.MERGE)
+    @JsonIgnore
     @JoinTable(
             name="user_role",
             joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
