@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      layout:decorator="layout">
+<head>
+    <title>Admin Home</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <p>
+        Добро пожаловать, снабженец <span sec:authentication="principal.username">Name</span>
+    </p>
+    <p sec:authorize="isAuthenticated()">
+        <a th:href="@{/logout}" th:text="#{logout.text}">Выйти из системы</a>
+    </p>
+</div>
+</body>
+</html>
