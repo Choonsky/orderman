@@ -4,25 +4,19 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       layout:decorator="layout">
-<head>
-    <title>Admin Home</title>
+
+<head th:replace="base :: common_header(~{::title},~{::link})">
+    <!-- If links are missing, write th:replace="base :: common_header(~{::title},~{})" -->
+    <title>Программа учёта заявок АО "СЦФБ" : Администрирование</title>
+    <link rel="stylesheet" th:href="@{/css/somestyle.css}">
 </head>
+
 <body>
 <div layout:fragment="content">
     <p>
         Добро пожаловать, админ <span sec:authentication="principal.username">Name</span>
     </p>
-    <p>
-        Current time is <span th:text="${serverTime}" />
-    </p>
-    <!--
-    <p>
-        Перечислим юзеров:
-    </p>
-    <p>
-        <span th:text="${users}" />
-    </p>
-    -->
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -36,19 +30,24 @@
         </thead>
         <tbody>
 
-        <tr th:each="user : ${users}">
-            <td th:text="${user.id}">Onions</td>
-            <td th:text="${user.name}">2.41</td>
-            <td th:text="${user.email}">Onions</td>
-            <td th:text="${user.password}">2.41</td>
+        <tr th:each="user : ${users}" th:id="${user.id}">
+            <td th:text="${user.id}">ID</td>
+            <td th:text="${user.name}">Имя</td>
+            <td th:text="${user.email}">Email</td>
+            <td th:text="${user.password}">Пароль</td>
             <td th:text="${user.description}">Onions</td>
             <td th:text="${user.phone}">2.41</td>
         </tr>
         </tbody>
     </table>
+    <p>
+        Сейчас у нас <span th:text="${serverTime}" />.
+    </p>
     <p sec:authorize="isAuthenticated()">
         <a th:href="@{/logout}" th:text="#{logout.text}">Выйти из системы</a>
     </p>
+    <div th:insert="~{base :: copy}"></div>
+
 </div>
 </body>
 </html>

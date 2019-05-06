@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="common_header(title,links)">
+    <title th:replace="${title}">Программа учёта заявок АО "СЦФБ"</title>
+    <!-- Common styles and scripts -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{assets/images/favicon-16x16.png}">
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/assets/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/assets/css/styles.css}" />
+    <!--/* Per-page placeholder for additional links */-->
+    <th:block th:replace="${links}" />
+</head>
+
+<body>
+
+<div th:fragment="copy">
+    <div style="text-align:center;">
+        &copy; 2019 NullSoft Co.
+    </div>
+</div>
+
+</body>
+
+</html>
