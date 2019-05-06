@@ -45,6 +45,16 @@ public class User
             inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
     private List<Role> roles;
 
+    public User() {}
+
+    public User(String name, String email, String password, String description, String phone) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.description = description;
+        this.phone = phone;
+   }
+
     public Integer getId()
     {
         return id;
@@ -92,5 +102,11 @@ public class User
     public void setRoles(List<Role> roles)
     {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", name=" + name + ", email=" + email + ", password=" +
+                password + ", description=" + description + ", phone=" + phone + '}';
     }
 }

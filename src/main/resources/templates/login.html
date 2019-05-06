@@ -1,71 +1,58 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      layout:decorator="layout">
-<head>
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon-16x16.png">
-
-    <title>АО "СЦФБ" - программа учёта заказов</title>
-    <link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}" />
-    <link rel="stylesheet" th:href="@{/assets/css/styles.css}" />
+<head th:replace="base :: header(~{::title})">
+    <title>Программа учёта заявок АО "СЦФБ" : Вход в систему</title>
 </head>
-<body>
-    <div layout:fragment="content">
-        <div class="panel col-md-4 col-md-offset-4 centered">
-            <img class="mb-4" src="assets/images/SCFB_logo_1.jpg" alt="" width="200" height="130">
-            <h1 class="h3 mb-3 font-weight-normal" style="padding-top: 70px;">Программа учёта заявок АО "СЦФБ"</h1>
-            <p>Введите свой логин (e-mail адрес) и пароль:</p>
+
+<body class="bg-light">
+
+<div class="container align-content-center text-center pt-5">
+    <img class="mb-2" src="assets/images/SCFB_logo.png" width="100" height="100">
+    <h3 class="mb-3 pt-5 font-weight-normal align-content-center">ПРОГРАММА УЧЁТА ЗАЯВОК АО "СЦФБ"</h3>
+    <div class="row">
+        <div class="offset-4 col-4">
             <div class="panel panel-primary">
-                <div class="panel-heading"><h3>Вход в систему</h3></div>
+                <div class="panel-heading"><p><strong>Вход в систему</strong></p></div>
                 <div class="panel-body">
                     <form action="login" th:action="@{/login}" method="post">
-                        <div class="form-group has-feedback">
-                            <input type="email" class="form-control" name="username"
-                                   placeholder="Email" /> <span
-                                class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        <div class="row form-group has-feedback">
+                            <div class="col-11">
+                                <input type="email" class="form-control" name="username" placeholder="Email" />
+                            </div>
+                            <div class="col-1">
+                                <img src="assets/images/email_icon.png" width="38" height="38">
+                            </div>
                         </div>
-                        <div class="form-group has-feedback">
-                            <input type="password" class="form-control" name="password"
-                                   placeholder="Password" /> <span
-                                class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <div class="row form-group has-feedback">
+                            <div class="col-11">
+                                <input type="password" class="form-control" name="password" placeholder="Пароль" />
+                            </div>
+                            <div class="col-1 text-left">
+                                <img src="assets/images/password_icon.png" width="38" height="38">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>
-                                <input type="checkbox" name="remember-me"> Запомнить меня
-                            </label>
+                        <div class="form-group text-center">
+                            <label><input type="checkbox" name="remember-me"> Запомнить меня на этом компьютере</label>
                         </div>
                         <div class="row">
-                            <div class="form-group col-xs-offset-8 col-xs-4">
+                            <div class="form-group col-4 offset-4">
                                 <button type="submit" class="btn btn-primary btn-block btn-flat"
                                         th:text="#{label.login}">LogIn</button>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-12">
-                                <div th:if="${param.error}"
-                                     class="alert alert-danger alert-dismissable">
-                                    <p>
-                                        <i class="icon fa fa-ban"></i> <span
-                                            th:text="#{error.login_failed}">Invalid Email and
-               Password.</span>
-                                    </p>
+                            <div class="col">
+                                <div th:if="${param.error}"class="alert alert-danger alert-dismissable">
+                                    <p><i class="icon fa fa-ban"></i> <span th:text="#{error.login_failed}">Invalid Email and Password.</span></p>
                                 </div>
-                                <div th:if="${param.logout}"
-                                     class="alert alert-info alert-dismissable">
-                                    <p>
-                                        <i class="icon fa fa-info"></i> <span
-                                            th:text="#{info.logout_success}">You have been logged
-               out.</span>
-                                    </p>
+                                <div th:if="${param.logout}"class="alert alert-info alert-dismissable">
+                                    <p><i class="icon fa fa-info"></i> <span th:text="#{info.logout_success}">You have been logged out.</span></p>
                                 </div>
-                                <div th:if="${msg!=null}"
-                                     class="alert alert-warning alert-dismissable">
-                                    <p>
-                                        <i class="icon fa fa-warning"></i> <span th:text="${msg}"></span>
-                                    </p>
+                                <div th:if="${msg!=null}"class="alert alert-warning alert-dismissable">
+                                    <p><i class="icon fa fa-warning"></i> <span th:text="${msg}"></span></p>
                                 </div>
                             </div>
                         </div>
@@ -74,5 +61,7 @@
             </div>
         </div>
     </div>
+    <div th:replace="~{base :: footer}"></div>
+</div>
 </body>
 </html>
