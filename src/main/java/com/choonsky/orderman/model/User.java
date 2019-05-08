@@ -3,6 +3,7 @@ package com.choonsky.orderman.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -45,6 +46,12 @@ public class User
             inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
     private List<Role> roles;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Action> actions;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Order> orders;
+
     public User() {}
 
     public User(String name, String email, String password, String description, String phone) {
@@ -63,6 +70,7 @@ public class User
     {
         this.id = id;
     }
+
     public String getName()
     {
         return name;
@@ -71,6 +79,7 @@ public class User
     {
         this.name = name;
     }
+
     public String getEmail()
     {
         return email;
@@ -79,16 +88,19 @@ public class User
     {
         this.email = email;
     }
+
     public String getPassword() { return password; }
     public void setPassword(String password)
     {
         this.password = password;
     }
+
     public String getDescription() { return description; }
     public void setDescription(String description)
     {
         this.description = description;
     }
+
     public String getPhone() { return phone; }
     public void setPhone(String phone)
     {
@@ -104,9 +116,16 @@ public class User
         this.roles = roles;
     }
 
+    public Set<Action> getActions() { return actions; }
+    public void setActions(Set<Action> actions) { this.actions = actions; }
+
+    public Set<Order> getOrders() { return orders; }
+    public void setOrders(Set<Order> orders) { this.orders = orders; }
+
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", name=" + name + ", email=" + email + ", password=" +
                 password + ", description=" + description + ", phone=" + phone + '}';
     }
+
 }

@@ -1,6 +1,7 @@
 package com.choonsky.orderman.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "states")
@@ -13,10 +14,22 @@ public class State {
     @Column(name = "state_name")
     private String stateName;
 
+    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Order> orders;
+
+    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Action> actions;
+
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
     public String getStateName() { return stateName; }
     public void setStateName(String stateName) { this.stateName = stateName; }
+
+    public Set<Action> getActions() { return actions; }
+    public void setActions(Set<Action> actions) { this.actions = actions; }
+
+    public Set<Order> getOrders() { return orders; }
+    public void setOrders(Set<Order> orders) { this.orders = orders; }
 
 }

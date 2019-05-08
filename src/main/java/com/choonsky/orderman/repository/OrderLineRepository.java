@@ -1,6 +1,6 @@
 package com.choonsky.orderman.repository;
 
-import com.choonsky.orderman.model.Orderline;
+import com.choonsky.orderman.model.OrderLine;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 // JpaRepository extends PagingAndSortingRepository which in turn extends CrudRepository
 
-public interface OrderlineRepository extends JpaRepository<Orderline, Integer>
+public interface OrderLineRepository extends JpaRepository<OrderLine, Integer>
 {
 //    Optional<Orderline> findByEmail(String email);
 }
