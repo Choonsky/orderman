@@ -1,11 +1,10 @@
 package com.choonsky.orderman.web;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class OrderTemplate {
     private Integer id;
-    private LocalDateTime time;
+    private String date;
     private String firstProductName;
     private int orderLinesQty;
     private boolean isSent;
@@ -17,10 +16,10 @@ public class OrderTemplate {
     public OrderTemplate() {
     }
 
-    public OrderTemplate(Integer id, LocalDateTime time, String firstProductName, int orderLinesQty, boolean isSent,
+    public OrderTemplate(Integer id, String date, String firstProductName, int orderLinesQty, boolean isSent,
                          boolean isApproved, boolean isExecuting, boolean isFinished, int messagesQty) {
         this.id = id;
-        this.time = time;
+        this.date = date;
         this.firstProductName = firstProductName;
         this.orderLinesQty = orderLinesQty;
         this.isSent = isSent;
@@ -51,12 +50,12 @@ public class OrderTemplate {
         this.id = id;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public String getDate() {
+        return date;
     }
 
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getFirstProductName() {

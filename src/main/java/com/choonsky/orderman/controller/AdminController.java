@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,10 +32,6 @@ public class AdminController {
     public ModelAndView getAdmin() {
 
         ModelAndView modelAndView = new ModelAndView("admin");
-
-// sending date and time...
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm, dd-MM-yyyy, разница с Лондоном Z");
-        modelAndView.addObject("serverTime", dateFormat.format(new Date()));
 
 // sending user name...
         String currentUserLogin = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -57,8 +55,12 @@ public class AdminController {
             actions.forEach(action -> {
                 if (action.getIdMessage() != null) messages.add(action.getMessage());
             });
-            ordersReady.add(new OrderTemplate(order.getId(), actions.get(0).getTime(), orderLines.get(0).getProduct().getProductName(),
-                    orderLines.size(), state.equals("SENT"), state.equals("APPROVED"), state.equals("EXECUTING"),
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            ordersReady.add(new OrderTemplate(order.getId(), actions.get(0).getTime().format(formatter),
+                    orderLines.get(0).getProduct().getProductName(), orderLines.size(),
+                    state.equals("SENT") || state.equals("APPROVED") || state.equals("EXECUTING") || state.equals("FINISHED"),
+                    state.equals("APPROVED") || state.equals("EXECUTING") || state.equals("FINISHED"),
+                    state.equals("EXECUTING") || state.equals("FINISHED"),
                     state.equals("FINISHED"), messages.size()));
         });
         modelAndView.addObject("orders", ordersReady);

@@ -33,3 +33,8 @@
 .table-hover > tbody > tr:hover {
 	background-color: #f2f2d2;
 }
+
+.badge-light {
+	color: #ffffff;
+	background-color: #208400;
+}

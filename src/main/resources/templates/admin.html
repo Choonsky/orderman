@@ -11,8 +11,8 @@
 
 <div class="container align-content-center text-center pt-5">
     <div class = "row">
-        <div class = "col-8 offset-2">
-            <img class="mb-2" src="assets/images/SCFB_logo.png" width="100" height="100">
+        <div class = "col-8 offset-2 mb-3">
+            <img src="assets/images/SCFB_logo.png" width="100" height="100">
             <h3 class="mb-3 pt-5 font-weight-normal align-content-center">ПРОГРАММА УЧЁТА ЗАЯВОК АО "СЦФБ"</h3>
             <p class="lead">Вы вошли как <b>
                 <span th:text="${currentUserName}">_template_</span>,
@@ -26,8 +26,254 @@
                 <li>редактирование свои заявки (только до отправки на утверждение)
                 <li>отправлять свои заявки на утверждение
             </ul>
+            <button class="btn btn-lg btn-success" type="submit" data-toggle="modal" data-target="#newOrder">Создать новую заявку</button>
         </div>
     </div>
+    <!-- Modal New Order -->
+    <div class="modal fade bd-example-modal-lg" id="newOrder" tabindex="-1" role="dialog" aria-labelledby="newOrderTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newOrderTitle">Новая заявка</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&cross;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group col-8">
+                                <label for="product">Товар</label>
+                                <input type="text" list="products" class="form-control" id="product" placeholder="Название товара" required>
+                                <datalist id="products">
+                                    <option>Ацидиум ацетилсалициллиум</option>
+                                    <option>Краска оранжевая водостойкая</option>
+                                    <option>Капуста брюссельская</option>
+                                    <option>Ботинки чёрные лаковые</option>
+                                </datalist>
+                                <div class="invalid-feedback">
+                                    Введите название товара!
+                                </div>
+                            </div>
+                            <div class="form-group col-2">
+                                <label for="uoc">Ед.</label>
+                                <select class="form-control" id="uoc">
+                                    <option selected="selected">шт.</option>
+                                    <option>кг</option>
+                                    <option>л</option>
+                                    <option>г</option>
+                                    <option>м</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-2">
+                                <label for="qty">Кол-во</label>
+                                <input type="text" class="form-control" id="qty" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Введите количество!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group col-8">
+                                <input type="text" list="products" class="form-control" id="product" placeholder="Название товара" required>
+                                <datalist id="products">
+                                    <option>Ацидиум ацетилсалициллиум</option>
+                                    <option>Краска оранжевая водостойкая</option>
+                                    <option>Капуста брюссельская</option>
+                                    <option>Ботинки чёрные лаковые</option>
+                                </datalist>
+                                <div class="invalid-feedback">
+                                    Введите название товара!
+                                </div>
+                            </div>
+                            <div class="form-group col-2">
+                                <select class="form-control" id="uoc">
+                                    <option selected="selected">шт.</option>
+                                    <option>кг</option>
+                                    <option>л</option>
+                                    <option>г</option>
+                                    <option>м</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-2">
+                                <input type="text" class="form-control" id="qty" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Введите количество!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group col-8">
+                                <input type="text" list="products" class="form-control" id="product" placeholder="Название товара" required>
+                                <datalist id="products">
+                                    <option>Ацидиум ацетилсалициллиум</option>
+                                    <option>Краска оранжевая водостойкая</option>
+                                    <option>Капуста брюссельская</option>
+                                    <option>Ботинки чёрные лаковые</option>
+                                </datalist>
+                                <div class="invalid-feedback">
+                                    Введите название товара!
+                                </div>
+                            </div>
+                            <div class="form-group col-2">
+                                <select class="form-control" id="uoc">
+                                    <option selected="selected">шт.</option>
+                                    <option>кг</option>
+                                    <option>л</option>
+                                    <option>г</option>
+                                    <option>м</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-2">
+                                <input type="text" class="form-control" id="qty" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Введите количество!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-12">
+                    <label for="comment"><b>Комментарии</b></label>
+                    <input type="text" class="form-control" id="comment" placeholder="Добавьте комментарий">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Отправить на утверждение</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of modal New Order -->
+
+    <!-- Modal Order Details -->
+    <!--
+    <div th:each="order : ${orders}" class="modal fade bd-example-modal-lg" th:id="'order' + ${order.id}" tabindex="-1" role="dialog" th:aria-labelledby="'Order #' + ${order.id}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newRequestTitle">Новая заявка</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&cross;</span>
+                    </button>
+                </div>
+                <div th:each="product : ${order.getFirstProductName()}" class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group col-8">
+                                <label for="product">Товар</label>
+                                <input type="text" list="products" class="form-control" id="product" placeholder="Название товара" required>
+                                <datalist id="products">
+                                    <option>Ацидиум ацетилсалициллиум</option>
+                                    <option>Краска оранжевая водостойкая</option>
+                                    <option>Капуста брюссельская</option>
+                                    <option>Ботинки чёрные лаковые</option>
+                                </datalist>
+                                <div class="invalid-feedback">
+                                    Введите название товара!
+                                </div>
+                            </div>
+                            <div class="form-group col-2">
+                                <label for="uoc">Ед.</label>
+                                <select class="form-control" id="uoc">
+                                    <option selected="selected">шт.</option>
+                                    <option>кг</option>
+                                    <option>л</option>
+                                    <option>г</option>
+                                    <option>м</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-2">
+                                <label for="qty">Кол-во</label>
+                                <input type="text" class="form-control" id="qty" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Введите количество!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group col-8">
+                                <input type="text" list="products" class="form-control" id="product" placeholder="Название товара" required>
+                                <datalist id="products">
+                                    <option>Ацидиум ацетилсалициллиум</option>
+                                    <option>Краска оранжевая водостойкая</option>
+                                    <option>Капуста брюссельская</option>
+                                    <option>Ботинки чёрные лаковые</option>
+                                </datalist>
+                                <div class="invalid-feedback">
+                                    Введите название товара!
+                                </div>
+                            </div>
+                            <div class="form-group col-2">
+                                <select class="form-control" id="uoc">
+                                    <option selected="selected">шт.</option>
+                                    <option>кг</option>
+                                    <option>л</option>
+                                    <option>г</option>
+                                    <option>м</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-2">
+                                <input type="text" class="form-control" id="qty" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Введите количество!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group col-8">
+                                <input type="text" list="products" class="form-control" id="product" placeholder="Название товара" required>
+                                <datalist id="products">
+                                    <option>Ацидиум ацетилсалициллиум</option>
+                                    <option>Краска оранжевая водостойкая</option>
+                                    <option>Капуста брюссельская</option>
+                                    <option>Ботинки чёрные лаковые</option>
+                                </datalist>
+                                <div class="invalid-feedback">
+                                    Введите название товара!
+                                </div>
+                            </div>
+                            <div class="form-group col-2">
+                                <select class="form-control" id="uoc">
+                                    <option selected="selected">шт.</option>
+                                    <option>кг</option>
+                                    <option>л</option>
+                                    <option>г</option>
+                                    <option>м</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-2">
+                                <input type="text" class="form-control" id="qty" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Введите количество!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-12">
+                    <label for="comment"><b>Комментарии</b></label>
+                    <input type="text" class="form-control" id="comment" placeholder="Добавьте комментарий">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Отправить на утверждение</button>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <!-- End of modal Order Details -->
 
     <div class="row">
         <table class="table table-hover table-sm"> <!-- table-striped -->
@@ -44,21 +290,26 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="order : ${orders}" th:id="${order.id}" data-toggle="modal" data-target="#request01">
+            <tr th:each="order : ${orders}" th:id="${order.id}" data-toggle="modal" th:data-target="'order' + ${order.id}">
                 <td th:text="${order.id}">ID</td>
-                <td th:text="${order.time}">01-01-2000</td>
-                <td th:text="${order.firstProductName}">Название первого продукта</td>
+                <td th:text="${order.date}">01-01-2000</td>
+                <td class="text-left" th:text="${order.firstProductName}">Название первого продукта</td>
                 <td th:text="${order.orderLinesQty}">00</td>
                 <td><span th:if="${order.getSent() == true}">&#9989;</span></td>
                 <td><span th:if="${order.getApproved() == true}">&#9989;</span></td>
                 <td><span th:if="${order.getExecuting() == true}">&#9989;</span></td>
-                <td><span th:text="${order.messagesQty}" class="badge badge-light badge-pill">00</span></td>
+                <td><span th:if="${order.getMessagesQty() != 0}" th:text="${order.messagesQty}" class="badge badge-light badge-pill">00</span></td>
             </tr>
-    </table>
-    <p>Сейчас у нас <span th:text="${serverTime}"></span>.</p>
-    <p sec:authorize="isAuthenticated()">
-        <a th:href="@{/logout}" th:text="#{logout.text}">Выйти из системы</a>
-    </p>
+        </table>
+    </div>
+    <div class="row" sec:authorize="isAuthenticated()">
+        <div class = "col-8 offset-2 mb-3">
+            <form action="/logout" th:action="@{/logout}" >
+                <button type="submit" class="btn btn-lg btn-primary"
+                        th:text="#{label.logout}">Logout</button>
+            </form>
+        </div>
+    </div>
     <div th:replace="~{base :: footer}"></div>
 
 </div>
