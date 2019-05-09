@@ -13,9 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.time.format.DateTimeFormatter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class AdminController {
@@ -54,19 +52,25 @@ public class AdminController {
         ArrayList<OrderTemplate> ordersReady = new ArrayList<>();
         orders.forEach(order -> {
             ArrayList<OrderLine> orderLines = new ArrayList<>(order.getOrderLines());
+
             ArrayList<Action> actions = new ArrayList<>(order.getActions());
+            Collections.sort(actions, Comparator.comparing(Action::getTime));
+
             String state = order.getState().getStateName();
+
             ArrayList<Message> messages = new ArrayList<>();
             actions.forEach(action -> {
                 if (action.getIdMessage() != null) messages.add(action.getMessage());
             });
+
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            
             ordersReady.add(new OrderTemplate(order.getId(), actions.get(0).getTime().format(formatter),
                     orderLines.get(0).getProduct().getProductName(), orderLines.size(),
                     state.equals("SENT") || state.equals("APPROVED") || state.equals("EXECUTING") || state.equals("FINISHED"),
                     state.equals("APPROVED") || state.equals("EXECUTING") || state.equals("FINISHED"),
                     state.equals("EXECUTING") || state.equals("FINISHED"),
-                    state.equals("FINISHED"), messages.size(), orderLines));
+                    state.equals("FINISHED"), messages.size(), orderLines, actions));
         });
         modelAndView.addObject("orders", ordersReady);
 
