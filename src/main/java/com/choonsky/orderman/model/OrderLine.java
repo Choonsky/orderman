@@ -22,6 +22,9 @@ public class OrderLine {
 
     private String uoc;
 
+    public OrderLine() {
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_order", nullable = false)
     private Order order;

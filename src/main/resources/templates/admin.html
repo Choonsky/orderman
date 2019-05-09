@@ -15,7 +15,7 @@
             <img class="mb-2" src="assets/images/SCFB_logo.png" width="100" height="100">
             <h3 class="mb-3 pt-5 font-weight-normal align-content-center">ПРОГРАММА УЧЁТА ЗАЯВОК АО "СЦФБ"</h3>
             <p class="lead">Вы вошли как <b>
-                <span th:text="${userFullName}">Bob</span>,
+                <span th:text="${currentUserName}">_template_</span>,
                 <span sec:authorize="hasRole('ROLE_ADMIN')">администратор</span>
                 <span sec:authorize="hasRole('ROLE_USER')">пользователь</span>
                 <span sec:authorize="hasRole('ROLE_CHIEF')">руководитель</span>
@@ -29,22 +29,31 @@
         </div>
     </div>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Имя</th>
-            <th>Состояние</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        <tr th:each="order : ${orders}" th:id="${order.id}">
-            <td th:text="${order.id}">ID</td>
-            <td th:text="${order.idUser}">Имя</td>
-            <td th:text="${order.idState}">Состояние</td>
-        </tr>
-        </tbody>
+    <div class="row">
+        <table class="table table-hover table-sm"> <!-- table-striped -->
+            <thead class ="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">Наименование первого товара</th>
+                <th scope="col">Всего товаров</th>
+                <th scope="col">Отпр.</th>
+                <th scope="col">Утв.</th>
+                <th scope="col">Исп.</th>
+                <th scope="col">Комм.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}" th:id="${order.id}" data-toggle="modal" data-target="#request01">
+                <td th:text="${order.id}">ID</td>
+                <td th:text="${order.time}">01-01-2000</td>
+                <td th:text="${order.firstProductName}">Название первого продукта</td>
+                <td th:text="${order.orderLinesQty}">00</td>
+                <td><span th:if="${order.getSent() == true}">&#9989;</span></td>
+                <td><span th:if="${order.getApproved() == true}">&#9989;</span></td>
+                <td><span th:if="${order.getExecuting() == true}">&#9989;</span></td>
+                <td><span th:text="${order.messagesQty}" class="badge badge-light badge-pill">00</span></td>
+            </tr>
     </table>
     <p>Сейчас у нас <span th:text="${serverTime}"></span>.</p>
     <p sec:authorize="isAuthenticated()">
