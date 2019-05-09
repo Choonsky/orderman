@@ -29,6 +29,7 @@
             <button class="btn btn-lg btn-success" type="submit" data-toggle="modal" data-target="#newOrder">Создать новую заявку</button>
         </div>
     </div>
+
     <!-- Modal New Order -->
     <div class="modal fade bd-example-modal-lg" id="newOrder" tabindex="-1" role="dialog" aria-labelledby="newOrderTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -40,24 +41,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="container">
+                    <div class="container" id="newOrderContainer">
                         <div class="row">
                             <div class="form-group col-8">
-                                <label for="product">Товар</label>
-                                <input type="text" list="products" class="form-control" id="product" placeholder="Название товара" required>
-                                <datalist id="products">
-                                    <option>Ацидиум ацетилсалициллиум</option>
-                                    <option>Краска оранжевая водостойкая</option>
-                                    <option>Капуста брюссельская</option>
-                                    <option>Ботинки чёрные лаковые</option>
-                                </datalist>
+                                <input type="text" list="products" class="form-control" id="product1" placeholder="Название товара" required>
                                 <div class="invalid-feedback">
                                     Введите название товара!
                                 </div>
                             </div>
                             <div class="form-group col-2">
-                                <label for="uoc">Ед.</label>
-                                <select class="form-control" id="uoc">
+                                <select class="form-control" id="uoc1">
                                     <option selected="selected">шт.</option>
                                     <option>кг</option>
                                     <option>л</option>
@@ -66,76 +59,14 @@
                                 </select>
                             </div>
                             <div class="form-group col-2">
-                                <label for="qty">Кол-во</label>
-                                <input type="text" class="form-control" id="qty" placeholder="" required>
+                                <input type="text" class="form-control" id="qty1" placeholder="" required>
                                 <div class="invalid-feedback">
                                     Введите количество!
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="container">
-                        <div class="row">
-                            <div class="form-group col-8">
-                                <input type="text" list="products" class="form-control" id="product" placeholder="Название товара" required>
-                                <datalist id="products">
-                                    <option>Ацидиум ацетилсалициллиум</option>
-                                    <option>Краска оранжевая водостойкая</option>
-                                    <option>Капуста брюссельская</option>
-                                    <option>Ботинки чёрные лаковые</option>
-                                </datalist>
-                                <div class="invalid-feedback">
-                                    Введите название товара!
-                                </div>
-                            </div>
-                            <div class="form-group col-2">
-                                <select class="form-control" id="uoc">
-                                    <option selected="selected">шт.</option>
-                                    <option>кг</option>
-                                    <option>л</option>
-                                    <option>г</option>
-                                    <option>м</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-2">
-                                <input type="text" class="form-control" id="qty" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    Введите количество!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container">
-                        <div class="row">
-                            <div class="form-group col-8">
-                                <input type="text" list="products" class="form-control" id="product" placeholder="Название товара" required>
-                                <datalist id="products">
-                                    <option>Ацидиум ацетилсалициллиум</option>
-                                    <option>Краска оранжевая водостойкая</option>
-                                    <option>Капуста брюссельская</option>
-                                    <option>Ботинки чёрные лаковые</option>
-                                </datalist>
-                                <div class="invalid-feedback">
-                                    Введите название товара!
-                                </div>
-                            </div>
-                            <div class="form-group col-2">
-                                <select class="form-control" id="uoc">
-                                    <option selected="selected">шт.</option>
-                                    <option>кг</option>
-                                    <option>л</option>
-                                    <option>г</option>
-                                    <option>м</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-2">
-                                <input type="text" class="form-control" id="qty" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    Введите количество!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addRow();">Добавить строку</button>
                 </div>
                 <div class="form-group col-12">
                     <label for="comment"><b>Комментарии</b></label>
@@ -152,107 +83,37 @@
     <!-- End of modal New Order -->
 
     <!-- Modal Order Details -->
-    <!--
     <div th:each="order : ${orders}" class="modal fade bd-example-modal-lg" th:id="'order' + ${order.id}" tabindex="-1" role="dialog" th:aria-labelledby="'Order #' + ${order.id}" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="newRequestTitle">Новая заявка</h5>
+                    <h5 class="modal-title" th:id="'order' + ${order.id} + 'title'" th:text="'Заявка №' + ${order.id}">Заявка № ???</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&cross;</span>
                     </button>
                 </div>
-                <div th:each="product : ${order.getFirstProductName()}" class="modal-body">
-                    <div class="container">
+                <div class="modal-body">
+                    <div th:each="orderLine : ${order.getOrderLines()}" class="container">
                         <div class="row">
                             <div class="form-group col-8">
-                                <label for="product">Товар</label>
-                                <input type="text" list="products" class="form-control" id="product" placeholder="Название товара" required>
-                                <datalist id="products">
-                                    <option>Ацидиум ацетилсалициллиум</option>
-                                    <option>Краска оранжевая водостойкая</option>
-                                    <option>Капуста брюссельская</option>
-                                    <option>Ботинки чёрные лаковые</option>
-                                </datalist>
+                                <input type="text" list=products class="form-control" th:placeholder="${orderLine.getProduct().getProductName()}"
+                                       th:id="'product' + ${orderLine.getId()}" required>
                                 <div class="invalid-feedback">
                                     Введите название товара!
                                 </div>
                             </div>
                             <div class="form-group col-2">
-                                <label for="uoc">Ед.</label>
-                                <select class="form-control" id="uoc">
-                                    <option selected="selected">шт.</option>
+                                <select class="form-control" th:id="'uoc' + ${orderLine.getId()}">
+                                    <option selected="selected" th:text="${orderLine.getUoc()}">шт.</option>
                                     <option>кг</option>
                                     <option>л</option>
                                     <option>г</option>
                                     <option>м</option>
+                                    <option>шт.</option>
                                 </select>
                             </div>
                             <div class="form-group col-2">
-                                <label for="qty">Кол-во</label>
-                                <input type="text" class="form-control" id="qty" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    Введите количество!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container">
-                        <div class="row">
-                            <div class="form-group col-8">
-                                <input type="text" list="products" class="form-control" id="product" placeholder="Название товара" required>
-                                <datalist id="products">
-                                    <option>Ацидиум ацетилсалициллиум</option>
-                                    <option>Краска оранжевая водостойкая</option>
-                                    <option>Капуста брюссельская</option>
-                                    <option>Ботинки чёрные лаковые</option>
-                                </datalist>
-                                <div class="invalid-feedback">
-                                    Введите название товара!
-                                </div>
-                            </div>
-                            <div class="form-group col-2">
-                                <select class="form-control" id="uoc">
-                                    <option selected="selected">шт.</option>
-                                    <option>кг</option>
-                                    <option>л</option>
-                                    <option>г</option>
-                                    <option>м</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-2">
-                                <input type="text" class="form-control" id="qty" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    Введите количество!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container">
-                        <div class="row">
-                            <div class="form-group col-8">
-                                <input type="text" list="products" class="form-control" id="product" placeholder="Название товара" required>
-                                <datalist id="products">
-                                    <option>Ацидиум ацетилсалициллиум</option>
-                                    <option>Краска оранжевая водостойкая</option>
-                                    <option>Капуста брюссельская</option>
-                                    <option>Ботинки чёрные лаковые</option>
-                                </datalist>
-                                <div class="invalid-feedback">
-                                    Введите название товара!
-                                </div>
-                            </div>
-                            <div class="form-group col-2">
-                                <select class="form-control" id="uoc">
-                                    <option selected="selected">шт.</option>
-                                    <option>кг</option>
-                                    <option>л</option>
-                                    <option>г</option>
-                                    <option>м</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-2">
-                                <input type="text" class="form-control" id="qty" placeholder="" required>
+                                <input type="text" class="form-control" th:placeholder="${orderLine.getAmount()}" th:id="'qty' + ${orderLine.getId()}" required>
                                 <div class="invalid-feedback">
                                     Введите количество!
                                 </div>
@@ -272,7 +133,6 @@
             </div>
         </div>
     </div>
--->
     <!-- End of modal Order Details -->
 
     <div class="row">
@@ -290,7 +150,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="order : ${orders}" th:id="${order.id}" data-toggle="modal" th:data-target="'order' + ${order.id}">
+            <tr th:each="order : ${orders}" th:id="${order.id}" data-toggle="modal" th:data-target="'#order' + ${order.id}">
                 <td th:text="${order.id}">ID</td>
                 <td th:text="${order.date}">01-01-2000</td>
                 <td class="text-left" th:text="${order.firstProductName}">Название первого продукта</td>
@@ -313,5 +173,20 @@
     <div th:replace="~{base :: footer}"></div>
 
 </div>
+<datalist id="products">
+    <option th:each="product : ${products}" th:text="${product.getProductName()}"></option>
+</datalist>
+    <script language="JavaScript">
+        function addRow() {
+            $("#newOrderContainer").append(
+            "<div class=\"row\"><div class=\"form-group col-8\"><input type=\"text\" list=\"products\" class=\"form-control\" " +
+            "id=\"product1\" placeholder=\"Название товара\" required><div class=\"invalid-feedback\">Введите название товара!" +
+            "</div></div><div class=\"form-group col-2\"><select class=\"form-control\" id=\"uoc1\"><option selected=\"selected\">" +
+            "шт.</option><option>кг</option><option>л</option><option>г</option><option>м</option></select></div><div" +
+            " class=\"form-group col-2\"><input type=\"text\" class=\"form-control\" id=\"qty1\" required><div" +
+            " class=\"invalid-feedback\">Введите количество!</div></div></div>");
+            $("#newOrder").modal("show");
+        }
+    </script>
 </body>
 </html>

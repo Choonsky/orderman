@@ -1,5 +1,8 @@
 package com.choonsky.orderman.web;
 
+import com.choonsky.orderman.model.OrderLine;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class OrderTemplate {
@@ -12,12 +15,13 @@ public class OrderTemplate {
     private boolean isExecuting;
     private boolean isFinished;
     private int messagesQty;
+    private ArrayList<OrderLine> orderLines;
 
     public OrderTemplate() {
     }
 
     public OrderTemplate(Integer id, String date, String firstProductName, int orderLinesQty, boolean isSent,
-                         boolean isApproved, boolean isExecuting, boolean isFinished, int messagesQty) {
+                         boolean isApproved, boolean isExecuting, boolean isFinished, int messagesQty, ArrayList<OrderLine> orderLines) {
         this.id = id;
         this.date = date;
         this.firstProductName = firstProductName;
@@ -27,6 +31,7 @@ public class OrderTemplate {
         this.isExecuting = isExecuting;
         this.isFinished = isFinished;
         this.messagesQty = messagesQty;
+        this.orderLines = orderLines;
     }
 
     public Integer getId() {
@@ -114,4 +119,11 @@ public class OrderTemplate {
         this.messagesQty = messagesQty;
     }
 
+    public ArrayList<OrderLine> getOrderLines() {
+        return orderLines;
+    }
+
+    public void setOrderLines(ArrayList<OrderLine> orderLines) {
+        this.orderLines = orderLines;
+    }
 }

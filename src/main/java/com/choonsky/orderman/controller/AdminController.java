@@ -1,21 +1,19 @@
 package com.choonsky.orderman.controller;
-
 import com.choonsky.orderman.model.*;
-
 import com.choonsky.orderman.repository.OrderRepository;
+import com.choonsky.orderman.repository.ProductRepository;
 import com.choonsky.orderman.repository.UserRepository;
 import com.choonsky.orderman.web.OrderTemplate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +25,9 @@ public class AdminController {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @RequestMapping("/admin")
     public ModelAndView getAdmin() {
@@ -40,10 +41,14 @@ public class AdminController {
         if (currentUser.isPresent()) currentUserName = currentUser.get().getName();
         modelAndView.addObject("currentUserName", currentUserName);
 
+// fetching all products...
+        List<Product> products = new ArrayList<>();
+        productRepository.findAll().forEach(product -> products.add(product));
+        modelAndView.addObject("products", products);
+
 // fetching all legal orders...
         List<Order> orders = new ArrayList<>();
         orderRepository.findAll().forEach(order -> orders.add(order));
-//        modelAndView.addObject("orders", orders);
 
 // populating order templates...
         ArrayList<OrderTemplate> ordersReady = new ArrayList<>();
@@ -61,7 +66,7 @@ public class AdminController {
                     state.equals("SENT") || state.equals("APPROVED") || state.equals("EXECUTING") || state.equals("FINISHED"),
                     state.equals("APPROVED") || state.equals("EXECUTING") || state.equals("FINISHED"),
                     state.equals("EXECUTING") || state.equals("FINISHED"),
-                    state.equals("FINISHED"), messages.size()));
+                    state.equals("FINISHED"), messages.size(), orderLines));
         });
         modelAndView.addObject("orders", ordersReady);
 
