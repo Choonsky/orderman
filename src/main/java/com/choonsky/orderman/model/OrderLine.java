@@ -3,6 +3,7 @@ package com.choonsky.orderman.model;
 import javax.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orderlines")
@@ -54,4 +55,29 @@ public class OrderLine {
     public Product getProduct() { return product; }
     public void setProduct(Product product) { this.product = product; }
 
+    @Override
+    public String toString() {
+        return "OrderLine{" +
+                "id=" + id +
+                ", idOrder=" + idOrder +
+                ", idProduct=" + idProduct +
+                ", amount=" + amount +
+                ", uoc='" + uoc + '\'' +
+                ", order=" + order +
+                ", product=" + product +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderLine orderLine = (OrderLine) o;
+        return getId().equals(orderLine.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

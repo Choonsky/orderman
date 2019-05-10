@@ -27,6 +27,15 @@ public class AdminController {
     @Autowired
     private ProductRepository productRepository;
 
+    /* EXAMPLES
+
+    Article savedArticle = articleRepository.save(article);
+    Article obj = articleRepository.findById(articleId).get();
+    Iterable<Article> articles = articleRepository.findAll();
+    articleRepository.delete(article);
+
+     */
+
     @RequestMapping("/admin")
     public ModelAndView getAdmin() {
 
@@ -64,7 +73,7 @@ public class AdminController {
             });
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            
+
             ordersReady.add(new OrderTemplate(order.getId(), actions.get(0).getTime().format(formatter),
                     orderLines.get(0).getProduct().getProductName(), orderLines.size(),
                     state.equals("SENT") || state.equals("APPROVED") || state.equals("EXECUTING") || state.equals("FINISHED"),

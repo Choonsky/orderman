@@ -1,6 +1,7 @@
 package com.choonsky.orderman.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -20,6 +21,9 @@ public class State {
     @OneToMany(mappedBy = "state", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Action> actions;
 
+    public State() {
+    }
+
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
@@ -32,4 +36,26 @@ public class State {
     public Set<Order> getOrders() { return orders; }
     public void setOrders(Set<Order> orders) { this.orders = orders; }
 
+    @Override
+    public String toString() {
+        return "State{" +
+                "id=" + id +
+                ", stateName='" + stateName + '\'' +
+                ", orders=" + orders +
+                ", actions=" + actions +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        State state = (State) o;
+        return getId().equals(state.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

@@ -3,10 +3,12 @@ package com.choonsky.orderman.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -20,6 +22,7 @@ public class User
 
     @Column(nullable=false)
     @NotEmpty()
+    @NotBlank(message = "{errors.blank_name}")
     private String name;
 
     @Column(nullable=false, unique=true)
@@ -128,4 +131,17 @@ public class User
                 password + ", description=" + description + ", phone=" + phone + '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getId().equals(user.getId()) &&
+                getEmail().equals(user.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getEmail());
+    }
 }

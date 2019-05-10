@@ -127,18 +127,21 @@
                     <div th:each="action : ${order.getActions()}">
                         <div th:if="${action.getIdMessage()}" class="text-left">
                             <span class="green" th:text="${#temporals.format(action.getTime(), 'dd-MM-yyyy HH:mm - ')}">01-01-2000</span>
-                            <span class="grey" th:text="${action.getUser().getName()} + ' говорит: '"></span>
+                            <span class="red" th:text="${action.getUser().getName()}"></span>
+                            <span class="grey" th:text="' говорит: '"></span>
                             <span class="blue" th:text="${action.getMessage().getContent()}">...текст...</span>
                         </div>
                         <div th:unless="${action.getIdMessage()}" class="text-left">
                             <span class="grey" th:text="${#temporals.format(action.getTime(), 'dd-MM-yyyy HH:mm - ')}">01-01-2000</span>
                             <span class="grey" th:text="${action.getUser().getName()}"></span>
-                            <span class="grey" th:if="${action.getState().getStateName() == 'CREATED'}" th:text="'создал(-а) этот заказ.'"></span>
-                            <span class="grey" th:if="${action.getState().getStateName() == 'SAVED'}" th:text="'сохранил(-а) этот заказ.'"></span>
-                            <span class="grey" th:if="${action.getState().getStateName() == 'SENT'}" th:text="'отправил(-а) этот заказ на утверждение.'"></span>
-                            <span class="grey" th:if="${action.getState().getStateName() == 'APPROVED'}" th:text="'утвердил(-а) этот заказ.''"></span>
-                            <span class="grey" th:if="${action.getState().getStateName() == 'EXECUTING'}" th:text="'приступил(-а) к выполнению этого заказа.'"></span>
-                            <span class="grey" th:if="${action.getState().getStateName() == 'FINISHED'}" th:text="'пометил(-а) заказ как выполненный.'"></span>
+                            <span th:switch="${action.getState().getStateName()}">
+                                <span class="grey" th:case="'CREATED'" th:text="'создал(-а) этот заказ.'"></span>
+                                <span class="grey" th:case="'SAVED'" th:text="'сохранил(-а) этот заказ.'"></span>
+                                <span class="grey" th:case="'SENT'" th:text="'отправил(-а) этот заказ на утверждение.'"></span>
+                                <span class="grey" th:case="'APPROVED'" th:text="'утвердил(-а) этот заказ.'"></span>
+                                <span class="grey" th:case="'EXECUTING'" th:text="'приступил(-а) к выполнению этого заказа.'"></span>
+                                <span class="grey" th:case="'FINISHED'" th:text="'пометил(-а) заказ как выполненный.'"></span>
+                            </span>
                         </div>
                     </div>
                     <input type="text" class="form-control" id="comment" placeholder="Добавьте комментарий">

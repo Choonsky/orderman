@@ -3,6 +3,7 @@ package com.choonsky.orderman.model;
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "actions")
@@ -39,6 +40,9 @@ public class Action {
     @JoinColumn(name="id_user", nullable = false)
     private User user;
 
+    public Action() {
+    }
+
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
@@ -66,4 +70,31 @@ public class Action {
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Action action = (Action) o;
+        return getId().equals(action.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Action{" +
+                "id=" + id +
+                ", idOrder=" + idOrder +
+                ", idState=" + idState +
+                ", idMessage=" + idMessage +
+                ", time=" + time +
+                ", order=" + order +
+                ", state=" + state +
+                ", message=" + message +
+                ", user=" + user +
+                '}';
+    }
 }

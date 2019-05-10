@@ -1,6 +1,8 @@
 package com.choonsky.orderman.model;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
 @Table(name = "attachments")
@@ -28,6 +30,9 @@ public class Attachment {
     @JoinColumn(name="id_message", nullable = false)
     private Message message;
 
+    public Attachment() {
+    }
+
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
@@ -46,4 +51,28 @@ public class Attachment {
     public Message getMessage() { return message; }
     public void setMessage(Message message) { this.message = message; }
 
+    @Override
+    public String toString() {
+        return "Attachment{" +
+                "id=" + id +
+                ", idMessage=" + idMessage +
+                ", fileName='" + fileName + '\'' +
+                ", fileSize=" + fileSize +
+                ", fileContent=" + Arrays.toString(fileContent) +
+                ", message=" + message +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Attachment that = (Attachment) o;
+        return getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

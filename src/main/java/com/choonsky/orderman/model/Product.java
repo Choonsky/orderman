@@ -3,6 +3,7 @@ package com.choonsky.orderman.model;
 import javax.persistence.*;
 
 import javax.validation.constraints.Size;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -28,6 +29,9 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<OrderLine> orderLines;
 
+    public Product() {
+    }
+
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
@@ -43,4 +47,27 @@ public class Product {
     public Set<OrderLine> getOrderLines() { return orderLines; }
     public void setOrderLines(Set<OrderLine> orderLines) { this.orderLines = orderLines; }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", productName='" + productName + '\'' +
+                ", defUoc='" + defUoc + '\'' +
+                ", defManufacturer='" + defManufacturer + '\'' +
+                ", orderLines=" + orderLines +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return getId().equals(product.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

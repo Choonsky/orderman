@@ -43,10 +43,14 @@
 	color: #00ff00;
 }
 
-.gray {
+.grey {
 	color: #bebebe;
 }
 
 .blue {
 	color: #0000ff;
+}
+
+.red {
+	color: #ff0000;
 }
