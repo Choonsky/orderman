@@ -55,13 +55,12 @@ public class AdminController {
         modelAndView.addObject("currentUserName", currentUserName);
 
 // fetching all products...
-        List<Product> products = new ArrayList<>();
-        productRepository.findAll().forEach(product -> products.add(product));
+        List<Product> products = new ArrayList<>(productRepository.findAll());
         modelAndView.addObject("products", products);
 
 // fetching all legal orders...
-        List<Order> orders = new ArrayList<>();
-        orderRepository.findAll().forEach(order -> orders.add(order));
+        List<Order> orders = new ArrayList<>(orderRepository.findAll());
+        Collections.sort(orders, Comparator.comparing(Order::getId).reversed());
 
 // populating order templates...
         ArrayList<OrderTemplate> ordersReady = new ArrayList<>();
@@ -69,7 +68,7 @@ public class AdminController {
             ArrayList<OrderLine> orderLines = new ArrayList<>(order.getOrderLines());
 
             ArrayList<Action> actions = new ArrayList<>(order.getActions());
-            Collections.sort(actions, Comparator.comparing(Action::getTime));
+            Collections.sort(actions, Comparator.comparing(Action::getId));
 
             String state = order.getState().getStateName();
 

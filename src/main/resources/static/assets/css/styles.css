@@ -54,3 +54,12 @@
 .red {
 	color: #ff0000;
 }
+
+#error {
+	z-index: 1080;
+}
+
+.error {
+	background-color: #ff0000;
+	color: #ffffff;
+}

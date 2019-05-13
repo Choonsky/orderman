@@ -30,6 +30,25 @@
         </div>
     </div>
 
+    <!-- Modal Error -->
+    <div class="modal fade bd-example-modal-lg" id="error" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+         aria-labelledby="newOrderTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content error">
+                <div class="modal-header">
+                    <h5 class="modal-title error" id="newOrderTitle">Нельзя удалить единственную строку!</h5>
+                    <button type="button" class="close error" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&cross;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of modal Error -->
+
     <!-- Modal New Order -->
     <div class="modal fade bd-example-modal-lg" id="newOrder" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
          aria-labelledby="newOrderTitle" aria-hidden="true">
@@ -44,7 +63,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="container" id="newOrderContainer">
-                            <div class="row" id="orderLine0">
+                            <div class="row orderRow" id="orderLine0">
                                 <div class="form-group col-7">
                                     <input name="productName" type="text" list="products" class="form-control" id="product1" placeholder="Название товара" required>
                                     <div class="invalid-feedback">

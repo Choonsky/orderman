@@ -3,7 +3,7 @@ var lineNumber = 0;
 function addRow() {
     lineNumber++;
     $("#newOrderContainer").append(
-        "<div class=\"row\" id=\"orderLine" + lineNumber + "\">" +
+        "<div class=\"row orderRow\" id=\"orderLine" + lineNumber + "\">" +
             "<div class=\"form-group col-7\">" +
                 "<input name=\"productName\" type=\"text\" list=\"products\" class=\"form-control\" placeholder=\"Название товара\" required>" +
                 "<div class=\"invalid-feedback\">Введите название товара!" +
@@ -30,5 +30,7 @@ function addRow() {
 }
 
 function deleteRow(number) {
-    $("#orderLine" + number).remove();
+    if ($("div.orderRow").length > 1)
+        $("#orderLine" + number).remove();
+    else $('#error').modal('show');
 }

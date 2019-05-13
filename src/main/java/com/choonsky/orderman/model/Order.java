@@ -5,24 +5,15 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-// @NamedQuery(name = "Order.saveByDefault",
-//        query = " into u from User u where u.emailAddress = ?1")
-// INSERT INTO `orderman`.`orders` (`id_user`, `id_state`) VALUES ('1', '1');
+@SequenceGenerator(name="seq", sequenceName = "hibernate_sequence", initialValue=1010, allocationSize=100)
 
 @Table(name = "orders")
 public class Order {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "seq")
     private Integer id;
 
-/*
-    @Column(name = "id_user", insertable = false, updatable = false)
-    private Integer idUser;
-
-    @Column(name = "id_state", insertable = false, updatable = false)
-    private Integer idState;
-*/
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_user", referencedColumnName="id")
     private User user;
@@ -47,13 +38,7 @@ public class Order {
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
-/*
-    public Integer getIdUser() { return idUser; }
-    public void setIdUser(Integer idUser) { this.idUser = idUser; }
 
-    public Integer getIdState() { return idState; }
-    public void setIdState(Integer idState) { this.idState = idState; }
-*/
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
 
@@ -83,12 +68,8 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-//                ", idUser=" + idUser +
-//                ", idState=" + idState +
                 ", user=" + this.user.getEmail() +
                 ", state=" + this.state.getStateName() +
-//                ", orderLines=" + (orderLines. ? "empty" : orderLines.size()) +
-//                ", actions=" + (actions.isEmpty() ? "empty" : actions.size()) +
                 '}';
     }
 }

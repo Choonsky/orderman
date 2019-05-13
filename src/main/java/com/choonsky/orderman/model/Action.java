@@ -11,16 +11,7 @@ public class Action {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
-/*
-    @Column(name = "id_order", insertable = false, updatable = false)
-    private Integer idOrder;
 
-    @Column(name = "id_state", insertable = false, updatable = false)
-    private Integer idState;
-
-    @Column(name = "id_message", insertable = false, updatable = false)
-    private Integer idMessage;
-*/
     @Basic
     private LocalDateTime time;
 
@@ -45,16 +36,7 @@ public class Action {
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
-/*
-    public Integer getIdOrder() { return idOrder; }
-    public void setIdOrder(Integer idOrder) { this.idOrder = idOrder; }
 
-    public Integer getIdState() { return idState; }
-    public void setIdState(Integer idState) { this.idState = idState; }
-
-    public Integer getIdMessage() { return idMessage; }
-    public void setIdMessage(Integer idMessage) { this.idMessage = idMessage; }
-*/
     public LocalDateTime getTime() { return time; }
     public void setTime(LocalDateTime time) { this.time = time; }
 

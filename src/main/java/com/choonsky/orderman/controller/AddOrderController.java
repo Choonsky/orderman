@@ -51,26 +51,22 @@ public class AddOrderController {
 
         Order newOrder = new Order(user, state);
         newOrder = orderRepository.save(newOrder);
-        System.out.println("\nIt is newOrder saved : " + newOrder +"\n");
 
         for (int i = 0; i < productNames.size(); i++) {
             Optional<Product> product = productRepository.findByProductName(productNames.get(i));
             if (!product.isPresent()) {
                 Product newProduct = new Product(productNames.get(i), productUocs.get(i), "default");
-                System.out.println("\nIt is newProduct prepared : " + newProduct +"\n");
                 newProduct = productRepository.save(newProduct);
-                System.out.println("\nIt is newProduct saved : " + newProduct +"\n");
             }
             Product newProduct = productRepository.findByProductName(productNames.get(i)).get();
             OrderLine newOrderLine = new OrderLine(newOrder, newProduct, new BigDecimal(productAmounts.get(i)), productUocs.get(i));
-            System.out.println("\nIt is newOrderLine prepared : " + newOrderLine +"\n");
             newOrderLine = orderLineRepository.save(newOrderLine);
-            System.out.println("\nIt is newOrderLine saved : " + newOrderLine +"\n");
         }
 
         saveAction(LocalDateTime.now(), newOrder, user, stateRepository.getOne(2), "");
         if (toSend.isPresent()) saveAction(LocalDateTime.now(), newOrder, user, stateRepository.getOne(3), null);
-        if (messageContent.isPresent()) saveAction(LocalDateTime.now(), newOrder, user, null, messageContent.get());
+        if (messageContent.isPresent() && !messageContent.get().isEmpty() && !messageContent.get().equals(""))
+            saveAction(LocalDateTime.now(), newOrder, user, null, messageContent.get());
 
         return "redirect:/admin";
     }
