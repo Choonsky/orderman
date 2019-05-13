@@ -35,49 +35,54 @@
          aria-labelledby="newOrderTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="newOrderTitle">Новая заявка</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&cross;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container" id="newOrderContainer">
-                        <div class="row">
-                            <div class="form-group col-8">
-                                <input type="text" list="products" class="form-control" id="product1" placeholder="Название товара" required>
-                                <div class="invalid-feedback">
-                                    Введите название товара!
+                <form action="#" th:action="@{/admin-add-order}" method="post" >
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newOrderTitle">Новая заявка</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&cross;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container" id="newOrderContainer">
+                            <div class="row" id="orderLine0">
+                                <div class="form-group col-7">
+                                    <input name="productName" type="text" list="products" class="form-control" id="product1" placeholder="Название товара" required>
+                                    <div class="invalid-feedback">
+                                        Введите название товара!
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group col-2">
-                                <select class="form-control" id="uoc1">
-                                    <option selected="selected">шт.</option>
-                                    <option>кг</option>
-                                    <option>л</option>
-                                    <option>г</option>
-                                    <option>м</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-2">
-                                <input type="text" class="form-control" id="qty1" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    Введите количество!
+                                <div class="form-group col-2">
+                                    <select name="productUoc" class="form-control" id="uoc1">
+                                        <option selected="selected" th:value="'шт.'">шт.</option>
+                                        <option th:value="'кг'">кг</option>
+                                        <option th:value="'л'">л</option>
+                                        <option th:value="'г'">г</option>
+                                        <option th:value="'м'">м</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-2">
+                                    <input name="productAmount" type="text" class="form-control" id="qty1" placeholder="" required>
+                                    <div class="invalid-feedback">
+                                        Введите количество!
+                                    </div>
+                                </div>
+                                <div class="form-group col-1">
+                                    <button type="button" class="btn btn-danger" onclick="deleteRow(0);">&cross;</button>
                                 </div>
                             </div>
                         </div>
+                        <button type="button" class="btn btn-success" onclick="addRow();">Добавить строку</button>
                     </div>
-                    <button type="button" class="btn btn-success" onclick="addRow();">Добавить строку</button>
-                </div>
-                <div class="form-group col-12">
-                    <label for="comment"><b>Комментарии</b></label>
-                    <input type="text" class="form-control" id="comment" placeholder="Добавьте комментарий">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Отправить на утверждение</button>
-                </div>
+                    <div class="form-group col-12">
+                        <label for="comment"><b>Комментарии</b></label>
+                        <input type="text" name="messageContent" class="form-control" placeholder="Добавьте комментарий">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" name="toSave" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" name="toSend" class="btn btn-success">Отправить на утверждение</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -125,13 +130,13 @@
                 <div class="form-group col-12">
                     <label for="comment"><b>События</b></label>
                     <div th:each="action : ${order.getActions()}">
-                        <div th:if="${action.getIdMessage()}" class="text-left">
+                        <div th:if="${action.getMessage()}" class="text-left">
                             <span class="green" th:text="${#temporals.format(action.getTime(), 'dd-MM-yyyy HH:mm - ')}">01-01-2000</span>
                             <span class="red" th:text="${action.getUser().getName()}"></span>
                             <span class="grey" th:text="' говорит: '"></span>
                             <span class="blue" th:text="${action.getMessage().getContent()}">...текст...</span>
                         </div>
-                        <div th:unless="${action.getIdMessage()}" class="text-left">
+                        <div th:unless="${action.getMessage()}" class="text-left">
                             <span class="grey" th:text="${#temporals.format(action.getTime(), 'dd-MM-yyyy HH:mm - ')}">01-01-2000</span>
                             <span class="grey" th:text="${action.getUser().getName()}"></span>
                             <span th:switch="${action.getState().getStateName()}">
@@ -197,16 +202,5 @@
 <datalist id="products">
     <option th:each="product : ${products}" th:text="${product.getProductName()}"></option>
 </datalist>
-    <script language="JavaScript">
-        function addRow() {
-            $("#newOrderContainer").append(
-            "<div class=\"row\"><div class=\"form-group col-8\"><input type=\"text\" list=\"products\" class=\"form-control\" " +
-            "id=\"product1\" placeholder=\"Название товара\" required><div class=\"invalid-feedback\">Введите название товара!" +
-            "</div></div><div class=\"form-group col-2\"><select class=\"form-control\" id=\"uoc1\"><option selected=\"selected\">" +
-            "шт.</option><option>кг</option><option>л</option><option>г</option><option>м</option></select></div><div" +
-            " class=\"form-group col-2\"><input type=\"text\" class=\"form-control\" id=\"qty1\" required><div" +
-            " class=\"invalid-feedback\">Введите количество!</div></div></div>");
-        }
-    </script>
 </body>
 </html>

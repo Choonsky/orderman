@@ -11,7 +11,7 @@ public class Action {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
-
+/*
     @Column(name = "id_order", insertable = false, updatable = false)
     private Integer idOrder;
 
@@ -20,20 +20,20 @@ public class Action {
 
     @Column(name = "id_message", insertable = false, updatable = false)
     private Integer idMessage;
-
+*/
     @Basic
     private LocalDateTime time;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_order", nullable = false)
+    @JoinColumn(name="id_order", referencedColumnName="id")
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_state", nullable = false)
+    @JoinColumn(name="id_state", referencedColumnName="id")
     private State state;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_message", nullable = false)
+    @JoinColumn(name="id_message", referencedColumnName="id")
     private Message message;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,7 +45,7 @@ public class Action {
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
-
+/*
     public Integer getIdOrder() { return idOrder; }
     public void setIdOrder(Integer idOrder) { this.idOrder = idOrder; }
 
@@ -54,7 +54,7 @@ public class Action {
 
     public Integer getIdMessage() { return idMessage; }
     public void setIdMessage(Integer idMessage) { this.idMessage = idMessage; }
-
+*/
     public LocalDateTime getTime() { return time; }
     public void setTime(LocalDateTime time) { this.time = time; }
 
@@ -87,14 +87,11 @@ public class Action {
     public String toString() {
         return "Action{" +
                 "id=" + id +
-                ", idOrder=" + idOrder +
-                ", idState=" + idState +
-                ", idMessage=" + idMessage +
                 ", time=" + time +
-                ", order=" + order +
-                ", state=" + state +
-                ", message=" + message +
-                ", user=" + user +
+                ", order=" + this.order.getId() +
+                ", state=" + ((this.state == null) ? "null" : this.state.getStateName()) +
+                ", message=" + ((this.message == null) ? "null" : this.message.getContent()) +
+                ", user=" + this.user.getEmail() +
                 '}';
     }
 }

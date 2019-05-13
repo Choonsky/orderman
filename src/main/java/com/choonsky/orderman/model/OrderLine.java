@@ -12,13 +12,13 @@ public class OrderLine {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
-
+/*
     @Column(name = "id_order", insertable = false, updatable = false)
     private Integer idOrder;
 
     @Column(name = "id_product", insertable = false, updatable = false)
     private Integer idProduct;
-
+*/
     private BigDecimal amount;
 
     private String uoc;
@@ -26,23 +26,30 @@ public class OrderLine {
     public OrderLine() {
     }
 
+    public OrderLine(Order order, Product product, BigDecimal amount, String uoc) {
+        this.order = order;
+        this.product = product;
+        this.amount = amount;
+        this.uoc = uoc;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_order", nullable = false)
+    @JoinColumn(name="id_order", referencedColumnName="id")
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_product", nullable = false)
+    @JoinColumn(name="id_product", referencedColumnName="id")
     private Product product;
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
-
+/*
     public Integer getIdOrder() { return idOrder; }
     public void setIdOrder(Integer idOrder) { this.idOrder = idOrder; }
 
     public Integer getIdProduct() { return idProduct; }
     public void setIdProduct(Integer idProduct) { this.idProduct = idProduct; }
-
+*/
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
 
@@ -59,12 +66,10 @@ public class OrderLine {
     public String toString() {
         return "OrderLine{" +
                 "id=" + id +
-                ", idOrder=" + idOrder +
-                ", idProduct=" + idProduct +
+                ", order=" + this.order.getId() +
+                ", product=" + this.product.getProductName() +
                 ", amount=" + amount +
                 ", uoc='" + uoc + '\'' +
-                ", order=" + order +
-                ", product=" + product +
                 '}';
     }
 

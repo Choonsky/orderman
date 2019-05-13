@@ -2,6 +2,7 @@ package com.choonsky.orderman.repository;
 
 import com.choonsky.orderman.model.Order;
 
+import org.hibernate.annotations.NamedQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -13,5 +14,5 @@ import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Integer>
 {
-//    Optional<Order> findByEmail(String email);
+
 }

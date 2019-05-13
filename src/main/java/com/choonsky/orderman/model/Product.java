@@ -32,6 +32,12 @@ public class Product {
     public Product() {
     }
 
+    public Product(@Size(max = 255) String productName, @Size(max = 9) String defUoc, @Size(max = 255) String defManufacturer) {
+        this.productName = productName;
+        this.defUoc = defUoc;
+        this.defManufacturer = defManufacturer;
+    }
+
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 

@@ -1,7 +1,6 @@
 package com.choonsky.orderman.web;
 
 import com.choonsky.orderman.model.Action;
-import com.choonsky.orderman.model.Message;
 import com.choonsky.orderman.model.OrderLine;
 
 import java.util.ArrayList;

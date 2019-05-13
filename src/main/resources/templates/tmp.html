@@ -10,8 +10,9 @@
 <body>
 <div layout:fragment="content">
     <p>
-        Добро пожаловать, снабженец <span sec:authentication="principal.username">Name</span>
+        Добро пожаловать, <span sec:authentication="principal.username">Name</span>!
     </p>
+    <p>Это временная страница.
     <p sec:authorize="isAuthenticated()">
         <a th:href="@{/logout}" th:text="#{label.logout}">Выйти из системы</a>
     </p>

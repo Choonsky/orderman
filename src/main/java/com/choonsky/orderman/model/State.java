@@ -41,8 +41,8 @@ public class State {
         return "State{" +
                 "id=" + id +
                 ", stateName='" + stateName + '\'' +
-                ", orders=" + orders +
-                ", actions=" + actions +
+                ", orders=" + orders.size() +
+                ", actions=" + actions.size() +
                 '}';
     }
 

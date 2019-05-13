@@ -28,7 +28,7 @@ public interface ActionRepository extends JpaRepository<Action, Integer>
     void delete(Action action);
     Action save(Action action); // return saved Action
     Optional<Action> findById(Integer id);
-    Optional<Action> findByIdOrder(Integer idOrder);
+//    Optional<Action> findByIdOrder(Integer idOrder);
 
 //    Optional<Action> getDistinctFirstByIdAndIdOrderEquals...(Integer id, Integer idOrder);
 
