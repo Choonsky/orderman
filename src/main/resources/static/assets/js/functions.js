@@ -1,36 +1,12 @@
-var lineNumber = 0;
+$(document).ready(function() {
+    $(".delrowbtn").click(function() {
+        if ($(this).closest(".modal-body").children(".container").length > 1)
+            $(this).closest(".container").remove();
+        else $('#error').modal('show');
+    });
+});
 
-function addRow() {
-    lineNumber++;
-    $("#newOrderContainer").append(
-        "<div class=\"row orderRow\" id=\"orderLine" + lineNumber + "\">" +
-            "<div class=\"form-group col-7\">" +
-                "<input name=\"productName\" type=\"text\" list=\"products\" class=\"form-control\" placeholder=\"Название товара\" required>" +
-                "<div class=\"invalid-feedback\">Введите название товара!" +
-                "</div>" +
-            "</div>" +
-            "<div class=\"form-group col-2\">" +
-                "<select name=\"productUoc\" class=\"form-control\">" +
-                "<option value=\"шт.\" selected=\"selected\">шт.</option>" +
-                "<option value=\"кг\">кг</option>" +
-                "<option value=\"л\">л</option>" +
-                "<option value=\"г\">г</option>" +
-                "<option value=\"м\">м</option>" +
-                "</select>" +
-            "</div>" +
-            "<div class=\"form-group col-2\">" +
-                "<input name=\"productAmount\" type=\"text\" class=\"form-control\" required>" +
-                "<div class=\"invalid-feedback\">Введите количество!" +
-                "</div>" +
-            "</div>" +
-            "<div class=\"form-group col-1\">" +
-                "<button type=\"button\" class=\"btn btn-danger\" onclick=\"deleteRow(" + lineNumber + ");\">&cross;</button>" +
-            "</div>" +
-        "</div>");
-}
-
-function deleteRow(number) {
-    if ($("div.orderRow").length > 1)
-        $("#orderLine" + number).remove();
-    else $('#error').modal('show');
-}
+$(".addrowbtn").click(function(){
+    $("#templateContainer").clone(true).appendTo($(this).closest(".modal-body"));
+    $(this).closest(".modal-body").append(this);
+});

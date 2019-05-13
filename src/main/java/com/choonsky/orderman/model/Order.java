@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@SequenceGenerator(name="seq", sequenceName = "hibernate_sequence", initialValue=1010, allocationSize=100)
+@SequenceGenerator(name="seq", sequenceName = "hibernate_sequence", initialValue=1010, allocationSize=10)
 
 @Table(name = "orders")
 public class Order {
