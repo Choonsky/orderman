@@ -56,6 +56,7 @@ public class AdminController {
 
 // fetching all products...
         List<Product> products = new ArrayList<>(productRepository.findAll());
+        Collections.sort(products, Comparator.comparing(Product::getProductName));
         modelAndView.addObject("products", products);
 
 // fetching all legal orders...

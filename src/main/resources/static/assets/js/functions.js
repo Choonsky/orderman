@@ -4,9 +4,8 @@ $(document).ready(function() {
             $(this).closest(".container").remove();
         else $('#error').modal('show');
     });
-});
-
-$(".addrowbtn").click(function(){
-    $("#templateContainer").clone(true).appendTo($(this).closest(".modal-body"));
-    $(this).closest(".modal-body").append(this);
+    $(".addrowbtn").click(function(){
+        $("#template-row").clone(true).appendTo($(this).closest(".modal-body"));
+        $(this).closest(".modal-body").append(this);
+    });
 });

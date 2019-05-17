@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class ModifyController {
     @Autowired
     private StateRepository stateRepository;
 
-    @RequestMapping(value = {"/modify/{id}", "/modify" }, method = RequestMethod.POST)
+    @RequestMapping(value = {"/modify/{id}", "/modify/{id}/", "/modify" }, method = RequestMethod.POST)
     public String modifyOrder(@PathVariable("id") Optional<Integer> id, @RequestParam("productName") List<String> productNames,
                              @RequestParam("productUoc") List<String> productUocs,
                              @RequestParam("productAmount") List<String> productAmounts,
@@ -52,7 +53,11 @@ public class ModifyController {
 
         if (id.isPresent()) {
             order = orderRepository.getOne(id.get());
-            order.setOrderLines(new HashSet<>());
+            ArrayList<OrderLine> orderLines = new ArrayList<>(order.getOrderLines());
+            System.out.println("\nIt is orderlines list : " + orderLines +"\n");
+            orderLineRepository.deleteInBatch(orderLines);
+            System.out.println("\nIt is orderlines list now : " + order.getOrderLines() +"\n");
+
         } else {
             State state = stateRepository.getOne(1);
             order = new Order(user, state);
@@ -92,7 +97,6 @@ public class ModifyController {
             act.setState(state);
         }
         act = actionRepository.save(act);
-        System.out.println("\nIt is action saved : " + act +"\n");
     }
 
 }
