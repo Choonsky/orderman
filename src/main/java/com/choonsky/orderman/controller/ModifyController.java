@@ -41,12 +41,14 @@ public class ModifyController {
     @Autowired
     private StateRepository stateRepository;
 
-    @RequestMapping(value = {"/modify/{id}", "/modify/{id}/", "/modify" }, method = RequestMethod.POST)
+    @RequestMapping(value = {"/modify", "/modify/{id}"}, method = RequestMethod.POST)
     public String modifyOrder(@PathVariable("id") Optional<Integer> id, @RequestParam("productName") List<String> productNames,
                              @RequestParam("productUoc") List<String> productUocs,
                              @RequestParam("productAmount") List<String> productAmounts,
                              @RequestParam("toSend") Optional<Boolean> toSend,
                              @RequestParam("messageContent") Optional<String> messageContent) {
+
+//            System.out.println("\nIt is orderlines list now : " + order.getOrderLines() +"\n");
 
         User user = userRepository.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         Order order;
@@ -54,12 +56,10 @@ public class ModifyController {
         if (id.isPresent()) {
             order = orderRepository.getOne(id.get());
             ArrayList<OrderLine> orderLines = new ArrayList<>(order.getOrderLines());
-            System.out.println("\nIt is orderlines list : " + orderLines +"\n");
             orderLineRepository.deleteInBatch(orderLines);
-            System.out.println("\nIt is orderlines list now : " + order.getOrderLines() +"\n");
 
         } else {
-            State state = stateRepository.getOne(1);
+            State state = stateRepository.findByStateName("SAVED").get();
             order = new Order(user, state);
         }
         order = orderRepository.save(order);

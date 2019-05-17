@@ -3,20 +3,14 @@ import com.choonsky.orderman.model.*;
 import com.choonsky.orderman.repository.OrderRepository;
 import com.choonsky.orderman.repository.ProductRepository;
 import com.choonsky.orderman.repository.UserRepository;
-import com.choonsky.orderman.web.OrderNew;
 import com.choonsky.orderman.web.OrderTemplate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.time.format.DateTimeFormatter;
 
 import java.util.*;
@@ -33,21 +27,12 @@ public class AdminController {
     @Autowired
     private ProductRepository productRepository;
 
-    /* EXAMPLES
-
-    Article savedArticle = articleRepository.save(article);
-    Article obj = articleRepository.findById(articleId).get();
-    Iterable<Article> articles = articleRepository.findAll();
-    articleRepository.delete(article);
-
-     */
-
     @RequestMapping("/admin")
     public ModelAndView getAdmin() {
 
         ModelAndView modelAndView = new ModelAndView("admin");
 
-// sending user name...
+// fetching user name...
         String currentUserLogin = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> currentUser = userRepository.findByEmail(currentUserLogin);
         String currentUserName = "_Кто-то в сером_";
@@ -59,7 +44,7 @@ public class AdminController {
         Collections.sort(products, Comparator.comparing(Product::getProductName));
         modelAndView.addObject("products", products);
 
-// fetching all legal orders...
+// fetching all orders...
         List<Order> orders = new ArrayList<>(orderRepository.findAll());
         Collections.sort(orders, Comparator.comparing(Order::getId).reversed());
 
@@ -88,10 +73,6 @@ public class AdminController {
                     state.equals("FINISHED"), messages.size(), orderLines, actions));
         });
         modelAndView.addObject("orders", ordersReady);
-
-// for the new order...
-        OrderNew newOrder = new OrderNew();
-        modelAndView.addObject("newOrder", newOrder);
 
 // let's see what we have done...
         return modelAndView;
