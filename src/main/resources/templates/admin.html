@@ -10,139 +10,23 @@
 <body class="bg-light">
 
 <div class="container align-content-center text-center pt-5">
-    <div class = "row">
-        <div class = "col-8 offset-2 mb-3">
-            <img src="assets/images/SCFB_logo.png" width="100" height="100">
-            <h3 class="mb-3 pt-5 font-weight-normal align-content-center">ПРОГРАММА УЧЁТА ЗАЯВОК АО "СЦФБ"</h3>
-            <p class="lead">Вы вошли как <b>
-                <span th:text="${currentUserName}">_template_</span>,
-                <span sec:authorize="hasRole('ROLE_ADMIN')">администратор</span>
-                <span sec:authorize="hasRole('ROLE_USER')">пользователь</span>
-                <span sec:authorize="hasRole('ROLE_CHIEF')">руководитель</span>
-                <span sec:authorize="hasRole('ROLE_SUPPLIER')">менеджер по поставкам</span></b>. Вы можете:</p>
-            <ul class="text-left">
-                <li>смотреть все свои заявки
-                <li>создавать новые заявки
-                <li>редактирование свои заявки (только до отправки на утверждение)
-                <li>отправлять свои заявки на утверждение
-            </ul>
-            <button class="btn btn-lg btn-success" type="submit" data-toggle="modal" data-target="#newOrder">Создать новую заявку</button>
-        </div>
-    </div>
+
+    <!-- Greeting and list of actions -->
+    <div th:replace="base :: greeting"></div>
+    <!-- Greeting and list of actions END -->
+
+    <button class="btn btn-lg btn-success" type="submit" data-toggle="modal" data-target="#newOrder">Создать новую заявку</button>
 
     <!-- Modal Error -->
-    <div class="modal col-3 offset-7 fade bd-example-modal-lg" id="error" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
-         aria-labelledby="newOrderTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content error">
-                <div class="modal-header">
-                    <h5 class="modal-title error" id="newOrderTitle">Нельзя удалить единственную строку!</h5>
-                    <button type="button" class="close error" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&cross;</span>
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div th:replace="base :: error"></div>
     <!-- End of modal Error -->
 
     <!-- Modal Template -->
-    <div class="modal col-3 offset-7 fade bd-example-modal-lg" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
-         aria-labelledby="newOrderTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="container" id="template-row">
-                    <div class="row orderrow">
-                        <div class="form-group col-7">
-                            <input name="productName" type="text" list="products" class="form-control input-name" placeholder="Название товара" required>
-                            <div class="invalid-feedback">
-                                Введите название товара!
-                            </div>
-                        </div>
-                        <div class="form-group col-2">
-                            <select name="productUoc" class="form-control input-uoc">
-                                <option selected="selected" th:value="'шт.'">шт.</option>
-                                <option th:value="'кг'">кг</option>
-                                <option th:value="'л'">л</option>
-                                <option th:value="'г'">г</option>
-                                <option th:value="'м'">м</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-2">
-                            <input name="productAmount" type="text" class="form-control input-amount" placeholder="" required>
-                            <div class="invalid-feedback">
-                                Введите количество!
-                            </div>
-                        </div>
-                        <div class="form-group col-1">
-                            <button type="button" class="btn btn-danger delrowbtn">&cross;</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div th:replace="base :: template"></div>
     <!-- End of modal Template -->
 
     <!-- Modal New Order -->
-    <div class="modal fade bd-example-modal-lg" id="newOrder" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
-         aria-labelledby="newOrderTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <form action="#" th:action="@{/modify/}" method="post" >
-                    <div class="modal-header">
-                        <h5 class="modal-title">Новая заявка</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&cross;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="row orderrow">
-                                <div class="form-group col-7">
-                                    <input name="productName" type="text" list="products" class="form-control input-name" placeholder="Название товара" required>
-                                    <div class="invalid-feedback">
-                                        Введите название товара!
-                                    </div>
-                                </div>
-                                <div class="form-group col-2">
-                                    <select name="productUoc" class="form-control input-uoc">
-                                        <option selected="selected" th:value="'шт.'">шт.</option>
-                                        <option th:value="'кг'">кг</option>
-                                        <option th:value="'л'">л</option>
-                                        <option th:value="'г'">г</option>
-                                        <option th:value="'м'">м</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-2">
-                                    <input name="productAmount" type="text" class="form-control input-amount" placeholder="" required>
-                                    <div class="invalid-feedback">
-                                        Введите количество!
-                                    </div>
-                                </div>
-                                <div class="form-group col-1">
-                                    <button type="button" class="btn btn-danger delrowbtn">&cross;</button>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-success addrowbtn">Добавить строку</button>
-                    </div>
-                    <div class="form-group col-12">
-                        <label for="comment"><b>Комментарии</b></label>
-                        <input name="messageContent" type="text" class="form-control" placeholder="Добавьте комментарий">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                        <button type="submit" name="toSave" class="btn btn-primary">Сохранить</button>
-                        <button type="submit" name="toSend" class="btn btn-success">Отправить на утверждение</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    <div th:replace="base :: newOrder"></div>
     <!-- End of modal New Order -->
 
     <!-- Modal Order Details -->
@@ -216,18 +100,18 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                        <button type="submit" name="toSave" class="btn btn-primary">Сохранить</button>
-                        <button type="submit" name="toSend" class="btn btn-success">Отправить на утверждение</button>
+                        <button type="submit" name="state" value="SAVED" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" name="state" value="SENT" class="btn btn-success">Отправить на утверждение</button>
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
-    <!-- End of modal Order Details -->
+    <!-- Modal Order Details END -->
 
+    <!-- Orders List Table -->
     <div class="row">
-        <table class="table table-hover table-sm"> <!-- table-striped -->
+        <table class="table table-hover table-sm">
             <thead class ="thead-dark">
             <tr>
                 <th scope="col">ID</th>
@@ -253,19 +137,22 @@
             </tr>
         </table>
     </div>
-    <div class="row" sec:authorize="isAuthenticated()">
-        <div class = "col-8 offset-2 mb-3">
-            <form action="/logout" th:action="@{/logout}" >
-                <button type="submit" class="btn btn-lg btn-primary"
-                        th:text="#{label.logout}">Logout</button>
-            </form>
-        </div>
-    </div>
-    <div th:replace="~{base :: footer}"></div>
+    <!-- Orders List Table END -->
+
+    <!-- Logout button -->
+    <div th:replace="base :: logout"></div>
+    <!-- Logout button END -->
+
+    <!-- Footer -->
+    <div th:replace="base :: footer"></div>
+    <!-- Footer END -->
 
 </div>
-<datalist id="products">
-    <option th:each="product : ${products}" th:text="${product.getProductName()}"></option>
-</datalist>
+<!-- Main Container END -->
+
+<!-- Products Datalist -->
+<datalist th:replace="base :: products" id="products"></datalist>
+<!-- Products Datalist END -->
+
 </body>
 </html>

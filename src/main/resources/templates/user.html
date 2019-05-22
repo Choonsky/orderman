@@ -1,20 +1,158 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      layout:decorator="layout">
-<head>
-    <title>User Home</title>
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:replace="base :: header(~{::title})">
+    <title>Программа учёта заявок АО "СЦФБ" : Администрирование</title>
 </head>
-<body>
-<div layout:fragment="content">
-    <p>
-        Добро пожаловать, юзер <span sec:authentication="principal.username">Name</span>
-    </p>
-    <p>
-        <a th:href="@{/logout}" th:text="#{label.logout}">Выйти из системы</a>
-    </p>
+
+<body class="bg-light">
+
+<div class="container align-content-center text-center pt-5">
+
+    <!-- Greeting and list of actions -->
+    <div th:replace="base :: greeting"></div>
+    <!-- Greeting and list of actions END -->
+
+    <button class="btn btn-lg btn-success" type="submit" data-toggle="modal" data-target="#newOrder">Создать новую заявку</button>
+
+    <!-- Modal Error -->
+    <div th:replace="base :: error"></div>
+    <!-- End of modal Error -->
+
+    <!-- Modal Template -->
+    <div th:replace="base :: template"></div>
+    <!-- End of modal Template -->
+
+    <!-- Modal New Order -->
+    <div th:replace="base :: newOrder"></div>
+    <!-- End of modal New Order -->
+
+    <!-- Modal Order Details -->
+    <div th:each="order : ${orders}" class="modal fade bd-example-modal-lg" th:id="'order' + ${order.id}" tabindex="-1" role="dialog" th:aria-labelledby="'Order #' + ${order.id}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <form action="#" th:action="@{/modify/{id}(id=${order.id})}" method="post" >
+                    <div class="modal-header">
+                        <h5 class="modal-title" th:id="'order' + ${order.id} + 'title'" th:text="'Заявка №' + ${order.id}">Заявка № ???</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&cross;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div th:each="orderLine : ${order.getOrderLines()}" class="container">
+                            <div class="row orderrow">
+                                <div class="form-group col-7">
+                                    <input name="productName" type="text" list=products class="form-control" th:placeholder="${orderLine.getProduct().getProductName()}"
+                                           th:id="'product' + ${orderLine.getId()}" th:value="${orderLine.getProduct().getProductName()}" required>
+                                    <div class="invalid-feedback">
+                                        Введите название товара!
+                                    </div>
+                                </div>
+                                <div class="form-group col-2">
+                                    <select name="productUoc" class="form-control" th:id="'uoc' + ${orderLine.getId()}">
+                                        <option selected="selected" th:text="${orderLine.getUoc()}">шт.</option>
+                                        <option>кг</option>
+                                        <option>л</option>
+                                        <option>г</option>
+                                        <option>м</option>
+                                        <option>шт.</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-2">
+                                    <input name="productAmount" type="text" class="form-control" th:placeholder="${orderLine.getAmount()}"
+                                           th:id="'qty' + ${orderLine.getId()}" th:value="${orderLine.getAmount()}" required>
+                                    <div class="invalid-feedback">
+                                        Введите количество!
+                                    </div>
+                                </div>
+                                <div class="form-group col-1">
+                                    <button type="button" class="btn btn-danger delrowbtn">&cross;</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-success addrowbtn">Добавить строку</button>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="comment"><b>События</b></label>
+                        <div th:each="action : ${order.getActions()}">
+                            <div th:if="${action.getMessage()}" class="text-left">
+                                <span class="green" th:text="${#temporals.format(action.getTime(), 'dd-MM-yyyy HH:mm - ')}">01-01-2000</span>
+                                <span class="red" th:text="${action.getUser().getName()}"></span>
+                                <span class="grey" th:text="' говорит: '"></span>
+                                <span class="blue" th:text="${action.getMessage().getContent()}">...текст...</span>
+                            </div>
+                            <div th:unless="${action.getMessage()}" class="text-left">
+                                <span class="grey" th:text="${#temporals.format(action.getTime(), 'dd-MM-yyyy HH:mm - ')}">01-01-2000</span>
+                                <span class="grey" th:text="${action.getUser().getName()}"></span>
+                                <span th:switch="${action.getState().getStateName()}">
+                                    <span class="grey" th:case="'CREATED'" th:text="'создал(-а) этот заказ.'"></span>
+                                    <span class="grey" th:case="'SAVED'" th:text="'сохранил(-а) этот заказ.'"></span>
+                                    <span class="grey" th:case="'SENT'" th:text="'отправил(-а) этот заказ на утверждение.'"></span>
+                                    <span class="grey" th:case="'APPROVED'" th:text="'утвердил(-а) этот заказ.'"></span>
+                                    <span class="grey" th:case="'EXECUTING'" th:text="'приступил(-а) к выполнению этого заказа.'"></span>
+                                    <span class="grey" th:case="'FINISHED'" th:text="'пометил(-а) заказ как выполненный.'"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <input name="messageContent" type="text" class="form-control" id="comment" placeholder="Добавьте комментарий">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" name="state" value="SAVED" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" name="state" value="SENT" class="btn btn-success">Отправить на утверждение</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Order Details END -->
+
+    <!-- Orders List Table -->
+    <div class="row">
+        <table class="table table-hover table-sm">
+            <thead class ="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">Наименование первого товара</th>
+                <th scope="col">Всего товаров</th>
+                <th scope="col">Отпр.</th>
+                <th scope="col">Утв.</th>
+                <th scope="col">Исп.</th>
+                <th scope="col">Комм.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}" th:id="${order.id}" data-toggle="modal" th:data-target="'#order' + ${order.id}">
+                <td th:text="${order.id}">ID</td>
+                <td th:text="${order.date}">01-01-2000</td>
+                <td class="text-left" th:text="${order.firstProductName}">Название первого продукта</td>
+                <td th:text="${order.orderLinesQty}">00</td>
+                <td><span th:if="${order.getSent() == true}">&#9989;</span></td>
+                <td><span th:if="${order.getApproved() == true}">&#9989;</span></td>
+                <td><span th:if="${order.getExecuting() == true}">&#9989;</span></td>
+                <td><span th:if="${order.getMessagesQty() != 0}" th:text="${order.messagesQty}" class="badge badge-light badge-pill">00</span></td>
+            </tr>
+        </table>
+    </div>
+    <!-- Orders List Table END -->
+
+    <!-- Logout button -->
+    <div th:replace="base :: logout"></div>
+    <!-- Logout button END -->
+
+    <!-- Footer -->
+    <div th:replace="base :: footer"></div>
+    <!-- Footer END -->
+
 </div>
+<!-- Main Container END -->
+
+<!-- Products Datalist -->
+<datalist th:replace="base :: products" id="products"></datalist>
+<!-- Products Datalist END -->
+
 </body>
 </html>

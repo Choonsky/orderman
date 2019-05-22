@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -42,28 +43,58 @@ public class ModifyController {
     private StateRepository stateRepository;
 
     @RequestMapping(value = {"/modify", "/modify/{id}"}, method = RequestMethod.POST)
-    public String modifyOrder(@PathVariable("id") Optional<Integer> id, @RequestParam("productName") List<String> productNames,
-                             @RequestParam("productUoc") List<String> productUocs,
-                             @RequestParam("productAmount") List<String> productAmounts,
-                             @RequestParam("toSend") Optional<Boolean> toSend,
-                             @RequestParam("messageContent") Optional<String> messageContent) {
-
-//            System.out.println("\nIt is orderlines list now : " + order.getOrderLines() +"\n");
+    public String modifyOrder(@PathVariable("id") Optional<Integer> id,
+                              @RequestParam("productName") List<String> productNames,
+                              @RequestParam("productUoc") List<String> productUocs,
+                              @RequestParam("productAmount") List<String> productAmounts,
+                              @RequestParam("state") Optional<String> toState,
+                              @RequestParam("messageContent") Optional<String> messageContent,
+                              HttpServletRequest request) {
 
         User user = userRepository.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         Order order;
+        String stateName;
+        if(toState.isPresent()) stateName = toState.get();
+            else stateName = "CREATED";
 
         if (id.isPresent()) {
+            // Existing order modifying
             order = orderRepository.getOne(id.get());
-            ArrayList<OrderLine> orderLines = new ArrayList<>(order.getOrderLines());
-            orderLineRepository.deleteInBatch(orderLines);
-
+            if (!toState.isPresent()) System.out.println("\n toState is NULL!!! \n");
+            switch(stateName) {
+                case("SAVED") :
+                case("SENT") :
+                    ArrayList<OrderLine> orderLines = new ArrayList<>(order.getOrderLines());
+                    orderLineRepository.deleteInBatch(orderLines);
+                case("APPROVED") :
+                case("EXECUTING") :
+                case("FINISHED") :
+                    State state = stateRepository.findByStateName(stateName).get();
+                    saveAction(LocalDateTime.now(), order, user, state, "");
+                    order.setState(state);
+                    break;
+            }
         } else {
-            State state = stateRepository.findByStateName("SAVED").get();
+            // New order
+            State state = stateRepository.findByStateName(stateName).get();
             order = new Order(user, state);
+            saveAction(LocalDateTime.now(), order, user, state, "");
         }
         order = orderRepository.save(order);
 
+        if (stateName.equals("SAVED") || stateName.equals("SENT"))
+            saveOrderLines(order, productNames, productUocs, productAmounts);
+
+        if (messageContent.isPresent() && !messageContent.get().isEmpty() && !messageContent.get().equals(""))
+            saveAction(LocalDateTime.now(), order, user, null, messageContent.get());
+
+        if (request.isUserInRole("ADMIN")) return "redirect:/admin";
+        else if (request.isUserInRole("CHIEF")) return "redirect:/chief";
+        else if (request.isUserInRole("SUPPLIER")) return "redirect:/supplier";
+        else return "redirect:/user";
+    }
+
+    private void saveOrderLines(Order order, List<String> productNames, List<String> productUocs, List<String> productAmounts) {
         for (int i = 0; i < productNames.size(); i++) {
             Optional<Product> product = productRepository.findByProductName(productNames.get(i));
             if (!product.isPresent()) {
@@ -74,16 +105,9 @@ public class ModifyController {
             OrderLine newOrderLine = new OrderLine(order, newProduct, new BigDecimal(productAmounts.get(i)), productUocs.get(i));
             orderLineRepository.save(newOrderLine);
         }
-
-        saveAction(LocalDateTime.now(), order, user, stateRepository.getOne(2), "");
-        if (toSend.isPresent()) saveAction(LocalDateTime.now(), order, user, stateRepository.getOne(3), null);
-        if (messageContent.isPresent() && !messageContent.get().isEmpty() && !messageContent.get().equals(""))
-            saveAction(LocalDateTime.now(), order, user, null, messageContent.get());
-
-        return "redirect:/admin";
     }
 
-    private void saveAction(LocalDateTime time, Order order, User user, State state, String msg) {
+    private Action saveAction(LocalDateTime time, Order order, User user, State state, String msg) {
         Action act = new Action();
         act.setTime(time);
         act.setOrder(order);
@@ -96,7 +120,7 @@ public class ModifyController {
         } else {
             act.setState(state);
         }
-        act = actionRepository.save(act);
+        return actionRepository.save(act);
     }
 
 }
