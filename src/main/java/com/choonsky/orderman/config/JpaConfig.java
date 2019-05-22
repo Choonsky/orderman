@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableJpaRepositories("com.choonsky.orderman.repository")
+
 public class JpaConfig {
+    // Default config is OK
 }

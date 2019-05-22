@@ -35,14 +35,14 @@
                             <div class="row orderrow">
                                 <div class="form-group col-7">
                                     <input name="productName" type="text" list=products class="form-control" th:placeholder="${orderLine.getProduct().getProductName()}"
-                                           th:id="'product' + ${orderLine.getId()}" th:value="${orderLine.getProduct().getProductName()}" disabled>
+                                           th:id="'product' + ${orderLine.getId()}" th:value="${orderLine.getProduct().getProductName()}" disabled required>
                                     <div class="invalid-feedback">
                                         Введите название товара!
                                     </div>
                                 </div>
                                 <div class="form-group col-2">
-                                    <select name="productUoc" class="form-control" th:id="'uoc' + ${orderLine.getId()}">
-                                        <option selected="selected" th:text="${orderLine.getUoc()}" disabled>шт.</option>
+                                    <select name="productUoc" class="form-control" th:id="'uoc' + ${orderLine.getId()}" disabled required>
+                                        <option selected="selected" th:text="${orderLine.getUoc()}">шт.</option>
                                         <option>кг</option>
                                         <option>л</option>
                                         <option>г</option>
@@ -52,13 +52,10 @@
                                 </div>
                                 <div class="form-group col-2">
                                     <input name="productAmount" type="text" class="form-control" th:placeholder="${orderLine.getAmount()}"
-                                           th:id="'qty' + ${orderLine.getId()}" th:value="${orderLine.getAmount()}" disabled>
+                                           th:id="'qty' + ${orderLine.getId()}" th:value="${orderLine.getAmount()}" disabled required>
                                     <div class="invalid-feedback">
                                         Введите количество!
                                     </div>
-                                </div>
-                                <div class="form-group col-1">
-                                    <button type="button" class="btn btn-danger delrowbtn">&cross;</button>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +118,7 @@
                 <td th:text="${order.orderLinesQty}">00</td>
                 <td><span th:if="${order.getApproved() == true}">&#9989;</span></td>
                 <td><span th:if="${order.getExecuting() == true}">&#9989;</span></td>
-                <td><span th:if="${order.geFinished() == true}">&#9989;</span></td>
+                <td><span th:if="${order.getFinished() == true}">&#9989;</span></td>
                 <td><span th:if="${order.getMessagesQty() != 0}" th:text="${order.messagesQty}" class="badge badge-light badge-pill">00</span></td>
             </tr>
         </table>

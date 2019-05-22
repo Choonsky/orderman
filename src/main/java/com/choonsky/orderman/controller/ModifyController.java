@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,12 +42,12 @@ public class ModifyController {
     private StateRepository stateRepository;
 
     @RequestMapping(value = {"/modify", "/modify/{id}"}, method = RequestMethod.POST)
-    public String modifyOrder(@PathVariable("id") Optional<Integer> id,
-                              @RequestParam("productName") List<String> productNames,
-                              @RequestParam("productUoc") List<String> productUocs,
-                              @RequestParam("productAmount") List<String> productAmounts,
-                              @RequestParam("state") Optional<String> toState,
-                              @RequestParam("messageContent") Optional<String> messageContent,
+    public String modifyOrder(@PathVariable(value = "id") Optional<Integer> id,
+                              @RequestParam(value = "productName", required = false) List<String> productNames,
+                              @RequestParam(value = "productUoc", required = false) List<String> productUocs,
+                              @RequestParam(value = "productAmount", required = false) List<String> productAmounts,
+                              @RequestParam(value = "state") Optional<String> toState,
+                              @RequestParam(value = "messageContent") Optional<String> messageContent,
                               HttpServletRequest request) {
 
         User user = userRepository.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -59,8 +58,8 @@ public class ModifyController {
 
         if (id.isPresent()) {
             // Existing order modifying
+            System.out.println("\n Request: id = " + id.get() + ", productName = " + productNames + ", toState = " + toState.get() + ".\n");
             order = orderRepository.getOne(id.get());
-            if (!toState.isPresent()) System.out.println("\n toState is NULL!!! \n");
             switch(stateName) {
                 case("SAVED") :
                 case("SENT") :
@@ -78,6 +77,11 @@ public class ModifyController {
             // New order
             State state = stateRepository.findByStateName(stateName).get();
             order = new Order(user, state);
+            order = orderRepository.save(order);
+            saveAction(LocalDateTime.now(), order, user, state, "");
+            stateName = "SAVED";
+            state = stateRepository.findByStateName(stateName).get();
+            order.setState(state);
             saveAction(LocalDateTime.now(), order, user, state, "");
         }
         order = orderRepository.save(order);
@@ -112,6 +116,7 @@ public class ModifyController {
         act.setTime(time);
         act.setOrder(order);
         act.setUser(user);
+        System.out.println("\n Saving Action: " + act + "\n");
         if (state == null) {
             Message message = new Message();
             message.setContent(msg);
