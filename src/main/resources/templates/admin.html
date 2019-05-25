@@ -15,6 +15,9 @@
     <div th:replace="base :: greeting"></div>
     <!-- Greeting and list of actions END -->
 
+<!-- While testing...
+    <button class="btn btn-lg btn-success mb-5" type="submit" data-toggle="modal" data-target="#newOrder">Создать новую заявку</button>
+-->
     <button class="btn btn-lg btn-success mb-5" type="submit" data-toggle="modal" data-target="#newOrder" disabled>Создать новую заявку</button>
 
     <!-- Modal Error -->
@@ -100,8 +103,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                        <button type="submit" name="state" value="SAVED" class="btn btn-primary">Сохранить</button>
-                        <button type="submit" name="state" value="SENT" class="btn btn-success">Отправить на утверждение</button>
+                        <button type="submit" name="state" value="SAVED" class="btn btn-primary" disabled>Сохранить</button>
+                        <button type="submit" name="state" value="SENT" class="btn btn-success" disabled>Отправить на утверждение</button>
                     </div>
                 </form>
             </div>
