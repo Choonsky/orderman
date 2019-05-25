@@ -5,10 +5,12 @@ Orders management system
 
 Web-site: https://order-manager-scpb.herokuapp.com
 
-Logins:
 Администратор (видит все заказы): admin@gmail.com:admin
+
 Пользователь: user@gmail.com:user
+
 Руководитель: chief@gmail.com:user
+
 Специалист по закупкам: supplier@gmail.com:user
 
 Все действия с базой данных блокированы!
