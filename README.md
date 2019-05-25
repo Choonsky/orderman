@@ -20,7 +20,7 @@ USED TECHNOLOGIES OVERVIEW
 
 Backend: Java, Spring, Spring Security
 
-Persistence: ClearDB (MySQL), JPA (Hibernate, Spring JPA)
+Persistence: ClearDB (MySQL), JPA (Hibernate, Spring JPA). See orderman_BD_structure.jpg.
 
 Frontend: Thymeleaf, Bootstrap, JQuery
 
