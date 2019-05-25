@@ -13,7 +13,10 @@ Web-site: https://order-manager-scpb.herokuapp.com (autodeployment of last Githu
 
 Специалист по закупкам: supplier@gmail.com:user
 
-Все действия с базой данных блокированы!
+ВСЕ ДЕЙСТВИЯ С БАЗОЙ ДАННЫХ БЛОКИРОВАНЫ!
+
+
+USED TECHNOLOGIES OVERVIEW
 
 Backend: Java, Spring, Spring Security
 
